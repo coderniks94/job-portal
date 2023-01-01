@@ -3,17 +3,25 @@ import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Navbar from "./components/Navbar";
 import AboutPage from "./pages/AboutPage";
+import PageFooter from "./components/PageFooter";
+import JobListPage from "./pages/JobListPage";
+import JobDetailPage from "./pages/JobDetailPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
-  return (
-    <>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-      </Routes>
-    </>
-  );
+    return (
+        <>
+            <Navbar />
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/jobs-list" element={<JobListPage />} />
+                <Route path="/job-detail" element={<JobDetailPage />} />
+                <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+            <PageFooter />
+        </>
+    );
 }
 
 export default App;

@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
-import { Form, FormControl, Button, Row, Col } from 'react-bootstrap';
+import React, { useState } from "react";
+import {
+    Form,
+    FormControl,
+    Button,
+    Row,
+    Col,
+    InputGroup,
+} from "react-bootstrap";
 
 const SearchBox = () => {
-    const [searchQuery, setSearchQuery] = useState('');
+    const [searchQuery, setSearchQuery] = useState("");
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -10,20 +17,36 @@ const SearchBox = () => {
         console.log(`Searching for: ${searchQuery}`);
     };
 
-    const handleChange = (event) => {
+    const handleSearchButtonClicked = (event) => {
         setSearchQuery(event.target.value);
     };
 
     return (
-        <Form inline onSubmit={handleSubmit} className="d-flex mt-5">
+        <Form inline="true" onSubmit={handleSubmit} className="d-flex mt-5">
             {/* <Row> */}
-                {/* <Col> */}
-                    <FormControl type="text" placeholder="Search" className="mr-sm-2" value={searchQuery} onChange={handleChange} />
-                {/* </Col> */}
-                {/* <Col> */}
-                    <Button type="submit" variant="primary">Search</Button>
-                {/* </Col> */}
-            {/* </Row> */}
+            {/* <Col> */}
+            {/* <FormControl
+                type="text"
+                placeholder="Search for position or company"
+                className="mr-sm-2"
+                value={searchQuery}
+                onChange={handleChange}
+            /> */}
+            <InputGroup className="mb-3" size="lg">
+                <Form.Control
+                    placeholder="Search for position or company"
+                    aria-label="Search for position or company"
+                    aria-describedby="search-btn"
+                />
+                <Button
+                    variant="outline-secondary"
+                    id="search-btn"
+                    type="submit"
+                    onClick={handleSearchButtonClicked}
+                >
+                    Search
+                </Button>
+            </InputGroup>
         </Form>
     );
 };
