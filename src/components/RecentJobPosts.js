@@ -90,7 +90,7 @@ export default function RecentJobPosts() {
                                 {req.location}
                             </Card.Subtitle>
                             <Card.Link
-                                href={"/jobs/" + req.id}
+                                href={"/job-detail/" + req.id}
                                 className="stretched-link"
                             ></Card.Link>
                             {/* <Button variant="primary">Go somewhere</Button> */}

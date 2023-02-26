@@ -11,37 +11,37 @@ export default function TopSearchedCompanies() {
                 id: "1982012",
                 companyName: "Amazon",
                 openPositions: 89,
-                companyJobsLink: "/jobs?company-id=1828912",
+                companyJobsLink: "/jobs-list?company-id=1828912",
             },
             {
                 id: "8230912",
                 companyName: "Microsoft",
                 openPositions: 77,
-                companyJobsLink: "/jobs?company-id=1828912",
+                companyJobsLink: "/jobs-list?company-id=1828912",
             },
             {
                 id: "1309128",
                 companyName: "Google",
                 openPositions: 118,
-                companyJobsLink: "/jobs?company-id=1828912",
+                companyJobsLink: "/jobs-list?company-id=1828912",
             },
             {
                 id: "1837911",
                 companyName: "Salesforce",
                 openPositions: 36,
-                companyJobsLink: "/jobs?company-id=1828912",
+                companyJobsLink: "/jobs-list?company-id=1828912",
             },
             {
                 id: "91823901",
                 companyName: "Netflix",
                 openPositions: 237,
-                companyJobsLink: "/jobs?company-id=1828912",
+                companyJobsLink: "/jobs-list?company-id=1828912",
             },
             {
                 id: "891734981",
                 companyName: "Airbnb",
                 openPositions: 256,
-                companyJobsLink: "/jobs?company-id=1828912",
+                companyJobsLink: "/jobs-list?company-id=1828912",
             },
         ]);
     }, []);
