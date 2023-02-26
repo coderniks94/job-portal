@@ -3,15 +3,15 @@
 import React from "react";
 // import "./styles.css";
 
-import { Button, ButtonGroup, Dropdown, Form } from "react-bootstrap";
+import { Button, ButtonGroup, Dropdown, DropdownButton, Form } from "react-bootstrap";
 
 export default function CheckboxDropdown(props) {
-    const {
-        items,
-        handleSelectNone,
-        handleSelectAll,
-        handleChecked,
-    } = props;
+	const {
+		items,
+		handleSelectNone,
+		handleSelectAll,
+		handleChecked,
+	} = props;
 	const CheckboxMenu = React.forwardRef(
 		(
 			{
@@ -40,12 +40,12 @@ export default function CheckboxDropdown(props) {
 						</ul>
 						<div className="dropdown-item border-top pt-2 pb-0">
 							{/* <ButtonGroup size="sm"> */}
-								<Button variant="link" onClick={onSelectAll}>
-									Select All
-								</Button>
-								<Button variant="link" onClick={onSelectNone}>
-									Select None
-								</Button>
+							<Button variant="link" onClick={onSelectAll}>
+								Select All
+							</Button>
+							<Button variant="link" onClick={onSelectNone}>
+								Select None
+							</Button>
 							{/* </ButtonGroup> */}
 						</div>
 					</div>
@@ -57,17 +57,25 @@ export default function CheckboxDropdown(props) {
 	const CheckDropdownItem = React.forwardRef(
 		({ children, id, checked, onChange }, ref) => {
 			return (
-				<Form.Group
+				// <Form.Group
+				// 	ref={ref}
+				// 	className="dropdown-item mb-0"
+				// 	controlId={id}>
+				// 	<Form.Check
+				// 		type="checkbox"
+				// 		label={children}
+				// 		checked={checked}
+				// 		onChange={onChange && onChange.bind(onChange, id)}
+				// 	/>
+				// </Form.Group>
+				<Form.Check
 					ref={ref}
-					className="dropdown-item mb-0"
-					controlId={id}>
-					<Form.Check
-						type="checkbox"
-						label={children}
-						checked={checked}
-						onChange={onChange && onChange.bind(onChange, id)}
-					/>
-				</Form.Group>
+					type="checkbox"
+					label={children}
+					checked={checked}
+					onChange={onChange && onChange.bind(onChange, id)}
+					controlId={id}
+				/>
 			);
 		}
 	);
@@ -81,7 +89,8 @@ export default function CheckboxDropdown(props) {
 			<Dropdown.Menu
 				as={CheckboxMenu}
 				onSelectAll={handleSelectAll}
-				onSelectNone={handleSelectNone}>
+				onSelectNone={handleSelectNone}
+				autoClose="outside">
 				{items.map((i) => (
 					<Dropdown.Item
 						key={i.id}
@@ -93,6 +102,13 @@ export default function CheckboxDropdown(props) {
 					</Dropdown.Item>
 				))}
 			</Dropdown.Menu>
+
+			{/* <DropdownButton id="dropdown-item-button" title="Dropdown button">
+				<Dropdown.ItemText>Dropdown item text</Dropdown.ItemText>
+				<Dropdown.Item as="checkbox">Action</Dropdown.Item>
+				<Dropdown.Item as="checkbox">Another action</Dropdown.Item>
+				<Dropdown.Item as="checkbox">Something else</Dropdown.Item>
+			</DropdownButton> */}
 		</Dropdown>
 	);
 }

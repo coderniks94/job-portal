@@ -3,7 +3,8 @@ import SearchBox from "../components/SearchBox";
 import React, { useState } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import Form from "react-bootstrap/Form";
-import CheckboxDropdown from "../components/CheckboxDropdown";
+// import CheckboxDropdown from "../components/CheckboxDropdown";
+import CheckboxDropdown2 from "../components/CheckboxDropdown2";
 
 export default function JobListPage() {
 	const [value, setValue] = useState("");
@@ -23,29 +24,29 @@ export default function JobListPage() {
 		},
 	]);
 
-	const [items, setItems] = useState([
-		{ id: "cp1", label: "Custom Property 1", checked: true },
-		{ id: "cp2", label: "Custom Property 2", checked: true },
-		{ id: "cp3", label: "Custom Property 3", checked: true },
-		{ id: "cp4", label: "Custom Property 4", checked: true },
+	const [companies, setCompanies] = useState([
+		{ id: "123", label: "Amazon", checked: true },
+		{ id: "234", label: "Google", checked: true },
+		{ id: "345", label: "Facebook", checked: true },
+		{ id: "456", label: "Microsoft", checked: true },
 	]);
 
 	const handleChecked = (key, event) => {
 		console.log(event.target.checked);
-		var itemsCopy = JSON.parse((JSON.stringify(items)));
+		var itemsCopy = JSON.parse((JSON.stringify(companies)));
 		var selectedItem = itemsCopy.find((i) => i.id === key);
 		selectedItem.checked = !selectedItem.checked;
 		console.log("itemsCopy:",itemsCopy);
-		setItems(itemsCopy);
-		console.log("items:",items);
+		setCompanies(itemsCopy);
+		console.log("items:",companies);
 	};
 
 	const handleSelectAll = () => {
-		items.forEach((i) => (i.checked = true));
+		companies.forEach((i) => (i.checked = true));
 	};
 
 	const handleSelectNone = () => {
-		items.forEach((i) => (i.checked = false));
+		companies.forEach((i) => (i.checked = false));
 	};
 
 	const onSelectedOptionsChange = function(e){
@@ -188,11 +189,16 @@ export default function JobListPage() {
 					))}
 				</Form.Control> */}
 
-				<CheckboxDropdown
+				{/* <CheckboxDropdown
 					items={items}
 					handleChecked={handleChecked}
 					handleSelectAll={handleSelectAll}
 					handleSelectNone={handleSelectNone}
+				/> */}
+				<CheckboxDropdown2
+					dropdownItems={companies}
+					dropdownLabel={"Search Companies"}
+					handleChecked={handleChecked}
 				/>
 
 				{/* <button type="button" class="multiselect dropdown-toggle" data-bs-toggle="dropdown"><span class="multiselect-selected-text"></span></button> */}
