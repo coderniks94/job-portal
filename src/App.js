@@ -10,18 +10,23 @@ import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
     return (
-        <>
-            <Navbar />
-            <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/jobs-list" element={<JobListPage />} />
-                <Route path="/job-detail/:id" element={<JobDetailPage />} />
-                <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-            <PageFooter />
-        </>
-    );
+		<>
+			<Navbar />
+			<div style={{"marginBottom": "200px"}}>
+				<Routes>
+					<Route path="/" element={<HomePage />} />
+					<Route path="/about" element={<AboutPage />} />
+					<Route path="/jobs-list" element={<JobListPage />} />
+					<Route path="/job-detail/:id" element={<JobDetailPage />} />
+					<Route path="*" element={<NotFoundPage />} />
+				</Routes>
+                <PageFooter />
+                
+			</div>
+            
+			
+		</>
+	);
 }
 
 export default App;
