@@ -39,9 +39,9 @@ export default function TopSearchedCompanies() {
             },
             {
                 id: "891734981",
-                companyName: "Airbnb",
+                companyName: "Search for your dream company",
                 openPositions: 256,
-                companyJobsLink: "/jobs-list?company-id=1828912",
+                companyJobsLink: "/jobs-list",
             },
         ]);
     }, []);

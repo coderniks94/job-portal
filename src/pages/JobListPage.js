@@ -1,11 +1,8 @@
-import { Col, Container, InputGroup } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import SearchBox from "../components/SearchBox";
 import React, { useState } from "react";
-import Dropdown from "react-bootstrap/Dropdown";
-import Form from "react-bootstrap/Form";
-import CheckboxDropdown from "../components/CheckboxDropdown";
-import PillboxList from "../components/PillboxList";
 import MultiSelectDropdown from "../components/MultiSelectDropdown";
+import JobPosts from "../components/JobPosts";
 // import CheckboxDropdown2 from "../components/CheckboxDropdown2";
 
 export default function JobListPage() {
@@ -37,6 +34,69 @@ export default function JobListPage() {
 		{ id: "789", label: "Los Angeles, California", value: "lac" },
 	]);
 
+	const [filteredJobPosts, setFilteredJobPosts] = useState([
+		{
+			positionName: "Senior Sales Execuive",
+			id: "12345",
+			location: "Hyderabad, Telangana, India",
+			postedDate: "Dec 26th, 2022",
+			company: {
+				name: "Amazon",
+				id: "930139",
+			},
+		},
+		{
+			positionName: "Software Engineer",
+			id: "10390123",
+			location: "San Francisco, California, United States",
+			postedDate: "Dec 20th, 2022",
+			company: {
+				name: "Google",
+				id: "823921",
+			},
+		},
+		{
+			positionName: "Product Manager",
+			id: "19283012",
+			location: "Amsterdam, UK",
+			postedDate: "Dec 26th, 2022",
+			company: {
+				name: "Airbnb",
+				id: "38912",
+			},
+		},
+		{
+			positionName: "Engineering Manager",
+			id: "2931893",
+			location: "Amsterdam, UK",
+			postedDate: "Dec 26th, 2022",
+			company: {
+				name: "Netflix",
+				id: "38912",
+			},
+		},
+		{
+			positionName: "HR Business partner",
+			id: "i298304293",
+			location: "Amsterdam, UK",
+			postedDate: "Dec 26th, 2022",
+			company: {
+				name: "Amazon",
+				id: "38912",
+			},
+		},
+		{
+			positionName: "Associate Product Manager",
+			id: "283913",
+			location: "Amsterdam, UK",
+			postedDate: "Dec 26th, 2022",
+			company: {
+				name: "Salesforce",
+				id: "38912",
+			},
+		},
+	]);
+
 	return (
 		<Container >
 			<SearchBox />
@@ -56,6 +116,9 @@ export default function JobListPage() {
 						items={locations}
 						label={"Select Locations"}
 					/>
+				</div>
+				<div className="min-vh-100 w-100 ms-3 mb-5">
+					<JobPosts jobPosts={filteredJobPosts}/>
 				</div>
 
 				{/* <button type="button" class="multiselect dropdown-toggle" data-bs-toggle="dropdown"><span class="multiselect-selected-text"></span></button> */}

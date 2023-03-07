@@ -12,7 +12,8 @@ function App() {
     return (
 		<>
 			<Navbar />
-			<div style={{"marginBottom": "200px"}}>
+			{/* <div style={{"marginBottom": "200px"}}> */}
+			<div>
 				<Routes>
 					<Route path="/" element={<HomePage />} />
 					<Route path="/about" element={<AboutPage />} />

@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 
 export default function PageFooter() {
     return (
-        <footer className="footer bg-dark bg-gradient fixed-bottom">
+        // fixed-bottom
+        <footer className="footer bg-dark bg-gradient">
             <Container>
                 <div className="pt-4 pb-5 d-flex">
                     <div className="w-100">
