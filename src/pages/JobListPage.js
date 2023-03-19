@@ -1,17 +1,20 @@
 import { Container } from "react-bootstrap";
 import SearchBox from "../components/SearchBox";
 import React, { useState } from "react";
-import MultiSelectDropdown from "../components/MultiSelectDropdown";
 import JobPosts from "../components/JobPosts";
-// import CheckboxDropdown2 from "../components/CheckboxDropdown2";
+import CheckboxList from "../components/CheckboxList";
 
 export default function JobListPage() {
+	const [selectedCompanies, setSelectedCompanies] = useState([]);
+	const [selectedDepartments, setSelectedDepartments] = useState([]);
+	const [selectedLocations, setSelectedLocations] = useState([]);
+
 	const [companies, setCompanies] = useState([
-		{ id: "123", label: "Amazon", value: "amazon" },
-		{ id: "234", label: "Google", value: "google" },
+		{ id: "123", label: "Amazon", value: "amazon"},
+		{ id: "234", label: "Google", value: "google"},
 		{ id: "345", label: "Facebook", value: "fb" },
-		{ id: "456", label: "Microsoft", value: "msft" },
-		{ id: "567", label: "ServiceNow", value: "snow" },
+		{ id: "456", label: "Microsoft", value: "msft"},
+		{ id: "567", label: "ServiceNow", value: "snow"},
 	]);
 
 	const [departments, setDepartments] = useState([
@@ -98,30 +101,33 @@ export default function JobListPage() {
 	]);
 
 	return (
-		<Container >
+		<Container>
 			<SearchBox />
 			<div className="d-flex">
 				<div className="d-flex flex-column w-25">
-					<MultiSelectDropdown
+					<CheckboxList
 						items={companies}
-						label={"Select Companies"}
+						setSelectedItemIds={setSelectedCompanies}
+						searchLabel="Search Companies"
 					/>
-					<hr/>
-					<MultiSelectDropdown
+					<hr />
+					<CheckboxList
 						items={departments}
-						label={"Select Departments"}
+						setSelectedItemIds={setSelectedDepartments}
+						searchLabel="Search Departments"
 					/>
-					<hr/>
-					<MultiSelectDropdown
+					<hr />
+					<CheckboxList
 						items={locations}
-						label={"Select Locations"}
+						setSelectedItemIds={setSelectedLocations}
+						searchLabel="Search Locations"
 					/>
+					<hr />
 				</div>
 				<div className="min-vh-100 w-100 ms-3 mb-5">
-					<JobPosts jobPosts={filteredJobPosts}/>
+					<JobPosts jobPosts={filteredJobPosts} />
 				</div>
 
-				{/* <button type="button" class="multiselect dropdown-toggle" data-bs-toggle="dropdown"><span class="multiselect-selected-text"></span></button> */}
 			</div>
 		</Container>
 	);
