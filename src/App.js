@@ -7,6 +7,7 @@ import PageFooter from "./components/PageFooter";
 import JobListPage from "./pages/JobListPage";
 import JobDetailPage from "./pages/JobDetailPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
     return (
@@ -17,6 +18,7 @@ function App() {
 				<Routes>
 					<Route path="/" element={<HomePage />} />
 					<Route path="/about" element={<AboutPage />} />
+					<Route path="/admin" element={<AdminPage />} />
 					<Route path="/jobs-list" element={<JobListPage />} />
 					<Route path="/job-detail/:id" element={<JobDetailPage />} />
 					<Route path="*" element={<NotFoundPage />} />
