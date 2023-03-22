@@ -99,7 +99,7 @@ export default function RecentJobPosts() {
                 );
             })}
             <div className="mt-3 mb-3 d-flex justify-content-end">
-                <Link to="/jobs?sort-by=posted-date">
+                <Link to="/jobs-list?sort-by=posted-date">
                     View all recent job posts
                 </Link>
             </div>

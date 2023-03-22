@@ -52,6 +52,9 @@ const MyNavbar = () => {
 						<Nav.Link as={Link} to="/about">
 							About
 						</Nav.Link>
+						<Nav.Link as={Link} to="/jobs-list">
+							Jobs List
+						</Nav.Link>
 					</Nav>
 					<Nav className="ms-auto">
 						<Button variant="light" className="mr-2" size="sm">

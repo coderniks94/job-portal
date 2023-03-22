@@ -10,7 +10,7 @@ export default function HomePage() {
         <>
             <HomePageBannerCarousel />
             <Container>
-                <SearchBox />
+                {/* <SearchBox /> */}
                 <TopSearchedCompanies />
                 <RecentJobPosts />
             </Container>

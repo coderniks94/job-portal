@@ -5,6 +5,7 @@ export default function CheckboxList({
 	items,
 	setSelectedItemIds,
 	searchLabel,
+    selectedItems
 }) {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [checkedItems, setCheckedItems] = useState([]);
@@ -14,18 +15,18 @@ export default function CheckboxList({
 	};
 
 	const handleItemCheck = (itemId) => {
-		if (checkedItems.includes(itemId)) {
-			var checkedItemIds = checkedItems.filter((id) => id !== itemId);
+		if (selectedItems.includes(itemId)) {
+			var checkedItemIds = selectedItems.filter((id) => id !== itemId);
 		} else {
-			var checkedItemIds = [...checkedItems, itemId];
+			var checkedItemIds = [...selectedItems, itemId];
 		}
-		setCheckedItems(checkedItemIds);
+		// setCheckedItems(checkedItemIds);
 		setSelectedItemIds(checkedItemIds);
 	};
 
 	const handleItemBadgeClose = (itemId) => {
-		var checkedItemIds = checkedItems.filter((id) => id !== itemId);
-		setCheckedItems(checkedItemIds);
+		var checkedItemIds = selectedItems.filter((id) => id !== itemId);
+		// setCheckedItems(checkedItemIds);
 		setSelectedItemIds(checkedItemIds);
 		// setCheckedItems(checkedItems.filter((id) => id !== itemId));
 	};
@@ -37,9 +38,9 @@ export default function CheckboxList({
 	return (
 		<div>
 			<div className="mb-2">
-				{checkedItems.length > 0 && (
+				{selectedItems.length > 0 && (
 					<div className="mt-3">
-						{checkedItems.map((itemId) => (
+						{selectedItems.map((itemId) => (
 							<Badge key={itemId} pill className="mr-1">
 								{/* {item.label} */}
 								{
@@ -67,25 +68,13 @@ export default function CheckboxList({
 					value={searchTerm}
 					onChange={handleSearch}
 				/>
-				{/* <ListGroup>
-					{filteredItems.map((item) => (
-						<ListGroup.Item key={item.id}>
-							<Form.Check
-								type="checkbox"
-								label={item.label}
-								checked={checkedItems.includes(item.id)}
-								onChange={() => handleItemCheck(item.id)}
-							/>
-						</ListGroup.Item>
-					))}
-				</ListGroup> */}
                 {filteredItems.map((item) => (
 				<div key={item.id}>
 					<Form.Check
                         id={item.id+'-'+item.value}
 						type="checkbox"
 						label={item.label}
-						checked={checkedItems.includes(item.id)}
+						checked={selectedItems.includes(item.id)}
 						onChange={() => handleItemCheck(item.id)}
 					/>
 				</div>

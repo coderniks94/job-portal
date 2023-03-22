@@ -1,13 +1,51 @@
 import { Container } from "react-bootstrap";
 import SearchBox from "../components/SearchBox";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import JobPosts from "../components/JobPosts";
 import CheckboxList from "../components/CheckboxList";
+import { addQueryParamsToUrl, appendQueryParam, getQueryParamValueByKey } from "../utils/urlUtils";
 
 export default function JobListPage() {
 	const [selectedCompanies, setSelectedCompanies] = useState([]);
 	const [selectedDepartments, setSelectedDepartments] = useState([]);
 	const [selectedLocations, setSelectedLocations] = useState([]);
+
+	useEffect(() => {
+		// const params = new URLSearchParams(window.location.search);
+		// const myQueryParam = params.get('myQueryParam');
+		// if (myQueryParam) {
+		//   setQueryParam(myQueryParam);
+		// }
+		const companyIdQueryParams = getQueryParamValueByKey("company-id")?.split(",");
+		setSelectedCompanies(companyIdQueryParams || []);
+
+		const departmentIdQueryParams = getQueryParamValueByKey("department-id")?.split(",");
+		setSelectedDepartments(departmentIdQueryParams || []);
+
+		const locationIdQueryParams = getQueryParamValueByKey("location-id")?.split(",");
+		setSelectedLocations(locationIdQueryParams || []);
+	}, []);
+
+	const handleCompaniesSelected = function(companyIdList) {
+		setSelectedCompanies(companyIdList);
+		// addQueryParamsToUrl('company-id', companyIdList);
+		// appendQueryParam(window.location.href, 'company-id', companyIdList.join())
+		appendQueryParam('company-id', companyIdList.join())
+	}
+
+	const handleDeptSelected = function(deptIdList) {
+		setSelectedDepartments(deptIdList);
+		// addQueryParamsToUrl('company-id', companyIdList);
+		// appendQueryParam(window.location.href, 'company-id', companyIdList.join())
+		appendQueryParam('department-id', deptIdList.join())
+	}
+
+	const handleLocationSelected = function(locationIdList) {
+		setSelectedLocations(locationIdList);
+		// addQueryParamsToUrl('company-id', companyIdList);
+		// appendQueryParam(window.location.href, 'company-id', companyIdList.join())
+		appendQueryParam('location-id', locationIdList.join())
+	}
 
 	const [companies, setCompanies] = useState([
 		{ id: "123", label: "Amazon", value: "amazon"},
@@ -107,20 +145,23 @@ export default function JobListPage() {
 				<div className="d-flex flex-column w-25">
 					<CheckboxList
 						items={companies}
-						setSelectedItemIds={setSelectedCompanies}
+						setSelectedItemIds={handleCompaniesSelected}
 						searchLabel="Search Companies"
+						selectedItems={selectedCompanies}
 					/>
 					<hr />
 					<CheckboxList
 						items={departments}
-						setSelectedItemIds={setSelectedDepartments}
+						setSelectedItemIds={handleDeptSelected}
 						searchLabel="Search Departments"
+						selectedItems={selectedDepartments}
 					/>
 					<hr />
 					<CheckboxList
 						items={locations}
-						setSelectedItemIds={setSelectedLocations}
+						setSelectedItemIds={handleLocationSelected}
 						searchLabel="Search Locations"
+						selectedItems={selectedLocations}
 					/>
 					<hr />
 				</div>
