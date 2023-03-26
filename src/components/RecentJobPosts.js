@@ -1,85 +1,32 @@
 import { useEffect, useState } from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { getRecentJobPostsData } from "../firebase/dbTransactions";
 
 export default function RecentJobPosts() {
     const [recentJobPosts, setRecentJobPosts] = useState([]);
 
-    useEffect(() => {
-        //fetch recent job posts
-        setRecentJobPosts([
-            {
-                positionName: "Senior Sales Execuive",
-                id: "12345",
-                location: "Hyderabad, Telangana, India",
-                postedDate: "Dec 26th, 2022",
-                company: {
-                    name: "Amazon",
-                    id: "930139",
-                },
-            },
-            {
-                positionName: "Software Engineer",
-                id: "10390123",
-                location: "San Francisco, California, United States",
-                postedDate: "Dec 20th, 2022",
-                company: {
-                    name: "Google",
-                    id: "823921",
-                },
-            },
-            {
-                positionName: "Product Manager",
-                id: "19283012",
-                location: "Amsterdam, UK",
-                postedDate: "Dec 26th, 2022",
-                company: {
-                    name: "Airbnb",
-                    id: "38912",
-                },
-            },
-            {
-                positionName: "Engineering Manager",
-                id: "2931893",
-                location: "Amsterdam, UK",
-                postedDate: "Dec 26th, 2022",
-                company: {
-                    name: "Netflix",
-                    id: "38912",
-                },
-            },
-            {
-                positionName: "HR Business partner",
-                id: "i298304293",
-                location: "Amsterdam, UK",
-                postedDate: "Dec 26th, 2022",
-                company: {
-                    name: "Amazon",
-                    id: "38912",
-                },
-            },
-            {
-                positionName: "Associate Product Manager",
-                id: "283913",
-                location: "Amsterdam, UK",
-                postedDate: "Dec 26th, 2022",
-                company: {
-                    name: "Salesforce",
-                    id: "38912",
-                },
-            },
-        ]);
+    const getRecentJobPosts = async function() {
+        var result = await getRecentJobPostsData();
+        console.log("recent job posts received result:", result);
+        // return result;
+        setRecentJobPosts(result);
+    }
+
+    useEffect(()=>{
+        getRecentJobPosts();
     }, []);
     return (
         <div className="mt-5">
             <h3>Recent Job Posts</h3>
-            {recentJobPosts.map((req) => {
+            {recentJobPosts && recentJobPosts.length > 0 && recentJobPosts.map((req) => {
+                console.log("req:", req);
                 return (
                     <Card className="mt-2" key={req.id}>
                         <Card.Header className="d-flex">
                             <h5>{req.positionName}</h5>
                             <span className="ms-auto">
-                                Posted on: {req.postedDate}
+                            Posted on: {new Date(req.postedDate.seconds * 1000).toDateString()}
                             </span>
                         </Card.Header>
                         <Card.Body>
@@ -87,7 +34,7 @@ export default function RecentJobPosts() {
                                 <Card.Title>{req.company.name}</Card.Title>
                             </div>
                             <Card.Subtitle className="mb-2 text-muted">
-                                {req.location}
+                                {req.location.city}
                             </Card.Subtitle>
                             <Card.Link
                                 href={"/job-detail/" + req.id}

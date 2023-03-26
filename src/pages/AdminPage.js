@@ -2,6 +2,7 @@ import { Button, Container } from "react-bootstrap";
 import { addDocumentsToCollection } from "../firebase/setupData";
 import companies from "../setupDataForDb/companies";
 import departments from "../setupDataForDb/departments";
+import jobs from "../setupDataForDb/jobs";
 import officeLocations from "../setupDataForDb/officeLocations";
 import roles from "../setupDataForDb/roles";
 import users from "../setupDataForDb/users";
@@ -55,6 +56,14 @@ export default function AdminPage() {
 				className="w-25 mt-2"
 				onClick={() => addDocumentsToCollection("roles", roles)}>
 				Generate Roles Data
+			</Button>
+			<br />
+			<br />
+			<Button
+				variant="primary"
+				className="w-25 mt-2"
+				onClick={() => addDocumentsToCollection("jobs", jobs)}>
+				Generate Jobs Data
 			</Button>
 		</Container>
 	);
