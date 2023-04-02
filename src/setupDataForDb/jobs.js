@@ -7,6 +7,7 @@ const jobs = [
 		company: {
 			id: "d9fd3ee39588",
 			name: "Amazon",
+			companyLogoUrl: "https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/amazon_logo.jpeg?alt=media&token=4b4e6640-0415-4752-b90a-777e5f058374",
 		},
 		location: {
 			id: "834ca110ebe1",
@@ -15,7 +16,7 @@ const jobs = [
 			country: "USA",
 		},
 		department: { id: "649670c03b0d", name: "Sales" },
-		postedDate: serverTimestamp(new Date("2021-03-25 12:25:00")),//Timestamp.fromDate(new Date("2021-03-25 12:25:00")),
+		postedDate: serverTimestamp(new Date("2021-03-25 12:25:00")), //Timestamp.fromDate(new Date("2021-03-25 12:25:00")),
 		status: "Open",
 		workPersona: "Remote",
 		jobDecription:
@@ -31,6 +32,7 @@ const jobs = [
 		company: {
 			id: "d9fd3ee39588",
 			name: "Amazon",
+			companyLogoUrl: "https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/amazon_logo.jpeg?alt=media&token=4b4e6640-0415-4752-b90a-777e5f058374",
 		},
 		location: {
 			id: "40897bf948fd",
@@ -55,6 +57,7 @@ const jobs = [
 		company: {
 			id: "d9fd3ee39588",
 			name: "Amazon",
+			companyLogoUrl: "https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/amazon_logo.jpeg?alt=media&token=4b4e6640-0415-4752-b90a-777e5f058374",
 		},
 		location: {
 			id: "834ca110ebe1",
@@ -79,6 +82,7 @@ const jobs = [
 		company: {
 			id: "d9fd3ee39588",
 			name: "Amazon",
+			companyLogoUrl: "https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/amazon_logo.jpeg?alt=media&token=4b4e6640-0415-4752-b90a-777e5f058374",
 		},
 		location: {
 			id: "834ca110ebe1",
@@ -103,6 +107,7 @@ const jobs = [
 		company: {
 			id: "9c056b8d8677",
 			name: "Meta",
+			companyLogoUrl: "https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/meta_logo.jpeg?alt=media&token=7ea75ce2-2e3d-4a33-aa7d-87b93bf80a2c",
 		},
 		location: {
 			id: "834ca110ebe1",
@@ -127,6 +132,7 @@ const jobs = [
 		company: {
 			id: "9c056b8d8677",
 			name: "Meta",
+			companyLogoUrl: "https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/meta_logo.jpeg?alt=media&token=7ea75ce2-2e3d-4a33-aa7d-87b93bf80a2c",
 		},
 		location: {
 			id: "40897bf948fd",
@@ -151,6 +157,7 @@ const jobs = [
 		company: {
 			id: "9c056b8d8677",
 			name: "Meta",
+			companyLogoUrl: "https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/meta_logo.jpeg?alt=media&token=7ea75ce2-2e3d-4a33-aa7d-87b93bf80a2c",
 		},
 		location: {
 			id: "834ca110ebe1",
@@ -175,6 +182,7 @@ const jobs = [
 		company: {
 			id: "9c056b8d8677",
 			name: "Meta",
+			companyLogoUrl: "https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/meta_logo.jpeg?alt=media&token=7ea75ce2-2e3d-4a33-aa7d-87b93bf80a2c",
 		},
 		location: {
 			id: "40897bf948fd",
@@ -199,6 +207,7 @@ const jobs = [
 		company: {
 			id: "9c056b8d8677",
 			name: "Meta",
+			companyLogoUrl: "https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/meta_logo.jpeg?alt=media&token=7ea75ce2-2e3d-4a33-aa7d-87b93bf80a2c",
 		},
 		location: {
 			id: "834ca110ebe1",
@@ -223,6 +232,8 @@ const jobs = [
 		company: {
 			id: "8256545b890f",
 			name: "Salesforce",
+			companyLogoUrl:
+				"https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/salesforce_logo.jpeg?alt=media&token=cc5875ee-2261-4aba-8841-252d57f4529a",
 		},
 		location: {
 			id: "834ca110ebe1",
@@ -247,6 +258,8 @@ const jobs = [
 		company: {
 			id: "8256545b890f",
 			name: "Salesforce",
+			companyLogoUrl:
+				"https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/salesforce_logo.jpeg?alt=media&token=cc5875ee-2261-4aba-8841-252d57f4529a",
 		},
 		location: {
 			id: "40897bf948fd",
@@ -271,6 +284,8 @@ const jobs = [
 		company: {
 			id: "8256545b890f",
 			name: "Salesforce",
+			companyLogoUrl:
+				"https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/salesforce_logo.jpeg?alt=media&token=cc5875ee-2261-4aba-8841-252d57f4529a",
 		},
 		location: {
 			id: "340f0d96ef75",
@@ -295,6 +310,8 @@ const jobs = [
 		company: {
 			id: "8256545b890f",
 			name: "Salesforce",
+			companyLogoUrl:
+				"https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/salesforce_logo.jpeg?alt=media&token=cc5875ee-2261-4aba-8841-252d57f4529a",
 		},
 		location: {
 			id: "834ca110ebe1",
@@ -319,6 +336,8 @@ const jobs = [
 		company: {
 			id: "8256545b890f",
 			name: "Salesforce",
+			companyLogoUrl:
+				"https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/salesforce_logo.jpeg?alt=media&token=cc5875ee-2261-4aba-8841-252d57f4529a",
 		},
 		location: {
 			id: "834ca110ebe1",
@@ -343,6 +362,8 @@ const jobs = [
 		company: {
 			id: "3ddfcd79ca72",
 			name: "Google",
+			companyLogoUrl:
+				"https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/google_logo.jpeg?alt=media&token=7ee5de97-6ff5-4b60-9c6e-abef8bc474d3",
 		},
 		location: {
 			id: "40897bf948fd",
@@ -367,6 +388,8 @@ const jobs = [
 		company: {
 			id: "3ddfcd79ca72",
 			name: "Google",
+			companyLogoUrl:
+				"https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/google_logo.jpeg?alt=media&token=7ee5de97-6ff5-4b60-9c6e-abef8bc474d3",
 		},
 		location: {
 			id: "340f0d96ef75",
@@ -386,11 +409,13 @@ const jobs = [
 			"<p>Amazon is an Equal Employment Opportunity Employer. All qualified applicants will receive consideration for employment without regard to race, color, creed, religion, sex, sexual orientation, national origin or nationality, ancestry, age, disability, gender identity or expression, marital status, veteran status or any other category protected by law.</p>",
 	},
 	{
-		id: "a012469a936e",
+		id: "aba43e5e0c00",
 		positionName: "Senior Manager",
 		company: {
 			id: "3ddfcd79ca72",
 			name: "Google",
+			companyLogoUrl:
+				"https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/google_logo.jpeg?alt=media&token=7ee5de97-6ff5-4b60-9c6e-abef8bc474d3",
 		},
 		location: {
 			id: "834ca110ebe1",
@@ -415,6 +440,8 @@ const jobs = [
 		company: {
 			id: "3ddfcd79ca72",
 			name: "Google",
+			companyLogoUrl:
+				"https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/google_logo.jpeg?alt=media&token=7ee5de97-6ff5-4b60-9c6e-abef8bc474d3",
 		},
 		location: {
 			id: "834ca110ebe1",
@@ -434,11 +461,13 @@ const jobs = [
 			"<p>Amazon is an Equal Employment Opportunity Employer. All qualified applicants will receive consideration for employment without regard to race, color, creed, religion, sex, sexual orientation, national origin or nationality, ancestry, age, disability, gender identity or expression, marital status, veteran status or any other category protected by law.</p>",
 	},
 	{
-		id: "037b782eaaac",
+		id: "3e31e379f707",
 		positionName: "Advisory Solution Consultant",
 		company: {
 			id: "3ddfcd79ca72",
 			name: "Google",
+			companyLogoUrl:
+				"https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/google_logo.jpeg?alt=media&token=7ee5de97-6ff5-4b60-9c6e-abef8bc474d3",
 		},
 		location: {
 			id: "834ca110ebe1",
@@ -463,6 +492,8 @@ const jobs = [
 		company: {
 			id: "3ddfcd79ca72",
 			name: "Google",
+			companyLogoUrl:
+				"https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/google_logo.jpeg?alt=media&token=7ee5de97-6ff5-4b60-9c6e-abef8bc474d3",
 		},
 		location: {
 			id: "834ca110ebe1",
@@ -482,11 +513,12 @@ const jobs = [
 			"<p>Amazon is an Equal Employment Opportunity Employer. All qualified applicants will receive consideration for employment without regard to race, color, creed, religion, sex, sexual orientation, national origin or nationality, ancestry, age, disability, gender identity or expression, marital status, veteran status or any other category protected by law.</p>",
 	},
 	{
-		id: "50322f5b32a9",
+		id: "e769093c232c",
 		positionName: "Sr Sales Enablement Manager",
 		company: {
 			id: "dc0322c76aff",
 			name: "Microsoft",
+			companyLogoUrl: "https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/msft_logo.jpeg?alt=media&token=825b84bf-bb00-423d-9107-8b623f9d4256",
 		},
 		location: {
 			id: "834ca110ebe1",
@@ -511,6 +543,7 @@ const jobs = [
 		company: {
 			id: "dc0322c76aff",
 			name: "Microsoft",
+			companyLogoUrl: "https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/msft_logo.jpeg?alt=media&token=825b84bf-bb00-423d-9107-8b623f9d4256",
 		},
 		location: {
 			id: "340f0d96ef75",
@@ -535,6 +568,7 @@ const jobs = [
 		company: {
 			id: "dc0322c76aff",
 			name: "Microsoft",
+			companyLogoUrl: "https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/msft_logo.jpeg?alt=media&token=825b84bf-bb00-423d-9107-8b623f9d4256",
 		},
 		location: {
 			id: "40897bf948fd",
@@ -559,6 +593,7 @@ const jobs = [
 		company: {
 			id: "dc0322c76aff",
 			name: "Microsoft",
+			companyLogoUrl: "https://firebasestorage.googleapis.com/v0/b/job-portal-prod.appspot.com/o/msft_logo.jpeg?alt=media&token=825b84bf-bb00-423d-9107-8b623f9d4256",
 		},
 		location: {
 			id: "340f0d96ef75",

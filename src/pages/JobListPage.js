@@ -3,172 +3,192 @@ import SearchBox from "../components/SearchBox";
 import React, { useEffect, useState } from "react";
 import JobPosts from "../components/JobPosts";
 import CheckboxList from "../components/CheckboxList";
-import { addQueryParamsToUrl, appendQueryParam, getQueryParamValueByKey } from "../utils/urlUtils";
+import {
+	getAllDocsFromCollection,
+	getFilteredJobPosts,
+} from "../firebase/dbTransactions";
+import useQueryParams from "../hooks/useQueryParams";
+import { COMPANY_ID_URL_PARAM, DEPT_ID_URL_PARAM, LOCATION_ID_URL_PARAM, SEARCH_TERM_URL_PARAM } from "../utils/constants";
 
 export default function JobListPage() {
+	const [companies, setCompanies] = useState([]);
+	const [departments, setDepartments] = useState([]);
+	const [locations, setLocations] = useState([]);
+	const [filteredJobPosts, setFilteredJobPosts] = useState([]);
+
 	const [selectedCompanies, setSelectedCompanies] = useState([]);
 	const [selectedDepartments, setSelectedDepartments] = useState([]);
 	const [selectedLocations, setSelectedLocations] = useState([]);
+	const [searchTerm, setSearchTerm] = useState([]);
+
+	const { getQueryParam, setQueryParam, resetQueryParam } = useQueryParams();
+
+	const getAllCompanies = async () => {
+		var allCompanies = (await getAllDocsFromCollection("companies")).map(
+			(com) => {
+				return { ...com, label: com.name };
+			}
+		);
+
+		setCompanies(allCompanies);
+	};
+
+	const getAllDepartments = async () => {
+		var allDepts = (await getAllDocsFromCollection("departments")).map(
+			(dep) => {
+				return { ...dep, label: dep.name };
+			}
+		);
+		setDepartments(allDepts);
+	};
+	const getAllLocations = async () => {
+		var allLocations = (
+			await getAllDocsFromCollection("officeLocations")
+		).map((loc) => {
+			return {
+				...loc,
+				label: `${loc.city}, ${loc.state}, ${loc.country}`,
+			};
+		});
+		console.log("allLocations", allLocations);
+		setLocations(allLocations);
+	};
+
+	const getFilteredPosts = async (
+		companyIdQueryParams,
+		departmentIdQueryParams,
+		locationIdQueryParams,
+		searchTermQueryParams
+	) => {
+		const filteredPosts = await getFilteredJobPosts(
+			companyIdQueryParams,
+			departmentIdQueryParams,
+			locationIdQueryParams,
+			searchTermQueryParams
+		);
+		setFilteredJobPosts(filteredPosts);
+	};
 
 	useEffect(() => {
-		// const params = new URLSearchParams(window.location.search);
-		// const myQueryParam = params.get('myQueryParam');
-		// if (myQueryParam) {
-		//   setQueryParam(myQueryParam);
-		// }
-		const companyIdQueryParams = getQueryParamValueByKey("company-id")?.split(",");
+		setTimeout(() => {
+			getAllCompanies();
+		}, 0);
+		setTimeout(() => {
+			getAllDepartments();
+		}, 0);
+		setTimeout(() => {
+			getAllLocations();
+		}, 0);
+
+		const companyIdQueryParams = getQueryParam(COMPANY_ID_URL_PARAM)?.split(",") || [];
 		setSelectedCompanies(companyIdQueryParams || []);
 
-		const departmentIdQueryParams = getQueryParamValueByKey("department-id")?.split(",");
-		setSelectedDepartments(departmentIdQueryParams || []);
+		const departmentIdQueryParams = getQueryParam(DEPT_ID_URL_PARAM)?.split(",") || [];
+		setSelectedDepartments(departmentIdQueryParams);
 
-		const locationIdQueryParams = getQueryParamValueByKey("location-id")?.split(",");
-		setSelectedLocations(locationIdQueryParams || []);
+		const locationIdQueryParams = getQueryParam(LOCATION_ID_URL_PARAM)?.split(",") || [];
+		setSelectedLocations(locationIdQueryParams);
+
+		const searchTermQueryParams = getQueryParam(SEARCH_TERM_URL_PARAM) || '';
+		setSearchTerm(searchTermQueryParams);
+
+		getFilteredPosts(
+			companyIdQueryParams,
+			departmentIdQueryParams,
+			locationIdQueryParams,
+			searchTermQueryParams
+		);
 	}, []);
 
-	const handleCompaniesSelected = function(companyIdList) {
+	const handleCompaniesSelected = function (companyIdList) {
 		setSelectedCompanies(companyIdList);
-		// addQueryParamsToUrl('company-id', companyIdList);
-		// appendQueryParam(window.location.href, 'company-id', companyIdList.join())
-		appendQueryParam('company-id', companyIdList.join())
-	}
+		setQueryParam(COMPANY_ID_URL_PARAM, companyIdList.join());
+		getFilteredPosts(
+			companyIdList,
+			selectedDepartments,
+			selectedLocations,
+			searchTerm
+		);
+	};
 
-	const handleDeptSelected = function(deptIdList) {
+	const handleDeptSelected = function (deptIdList) {
 		setSelectedDepartments(deptIdList);
-		// addQueryParamsToUrl('company-id', companyIdList);
-		// appendQueryParam(window.location.href, 'company-id', companyIdList.join())
-		appendQueryParam('department-id', deptIdList.join())
-	}
+		setQueryParam(DEPT_ID_URL_PARAM, deptIdList.join());
+		getFilteredPosts(
+			selectedCompanies,
+			deptIdList,
+			selectedLocations,
+			searchTerm
+		);
+	};
 
-	const handleLocationSelected = function(locationIdList) {
+	const handleLocationSelected = function (locationIdList) {
 		setSelectedLocations(locationIdList);
-		// addQueryParamsToUrl('company-id', companyIdList);
-		// appendQueryParam(window.location.href, 'company-id', companyIdList.join())
-		appendQueryParam('location-id', locationIdList.join())
+		setQueryParam(LOCATION_ID_URL_PARAM, locationIdList.join());
+		getFilteredPosts(
+			selectedCompanies,
+			selectedDepartments,
+			locationIdList,
+			searchTerm
+		);
+	};
+
+	const handleSearchTermSet = function (searchTerm) {
+		setSearchTerm(searchTerm);
+		setQueryParam(SEARCH_TERM_URL_PARAM, searchTerm);
+	};
+
+	const handleSearchSubmit = function() {
+		getFilteredPosts(
+			selectedCompanies,
+			selectedDepartments,
+			selectedLocations,
+			searchTerm
+		);
+		console.log("searching for ", searchTerm);
 	}
-
-	const [companies, setCompanies] = useState([
-		{ id: "123", label: "Amazon", value: "amazon"},
-		{ id: "234", label: "Google", value: "google"},
-		{ id: "345", label: "Facebook", value: "fb" },
-		{ id: "456", label: "Microsoft", value: "msft"},
-		{ id: "567", label: "ServiceNow", value: "snow"},
-	]);
-
-	const [departments, setDepartments] = useState([
-		{ id: "123", label: "Finance", value: "finance" },
-		{ id: "234", label: "HR", value: "hr" },
-		{ id: "345", label: "Technology", value: "tech" },
-		{ id: "456", label: "Marketing", value: "marketing" },
-		{ id: "567", label: "Support", value: "support" },
-		{ id: "678", label: "UX Design", value: "ux" },
-		{ id: "789", label: "Sales", value: "sales" },
-	]);
-
-	const [locations, setLocations] = useState([
-		{ id: "123", label: "Addison, Texas", value: "txs" },
-		{ id: "234", label: "Bangalore, Karnataka", value: "bglr" },
-		{ id: "345", label: "Hyderabad, Telangana", value: "hyd" },
-		{ id: "456", label: "Chicago, Illinois", value: "illn" },
-		{ id: "567", label: "New Delhi, New Delhi", value: "ndl" },
-		{ id: "678", label: "New York, New York", value: "nyc" },
-		{ id: "789", label: "Los Angeles, California", value: "lac" },
-	]);
-
-	const [filteredJobPosts, setFilteredJobPosts] = useState([
-		{
-			positionName: "Senior Sales Execuive",
-			id: "12345",
-			location: "Hyderabad, Telangana, India",
-			postedDate: "Dec 26th, 2022",
-			company: {
-				name: "Amazon",
-				id: "930139",
-			},
-		},
-		{
-			positionName: "Software Engineer",
-			id: "10390123",
-			location: "San Francisco, California, United States",
-			postedDate: "Dec 20th, 2022",
-			company: {
-				name: "Google",
-				id: "823921",
-			},
-		},
-		{
-			positionName: "Product Manager",
-			id: "19283012",
-			location: "Amsterdam, UK",
-			postedDate: "Dec 26th, 2022",
-			company: {
-				name: "Airbnb",
-				id: "38912",
-			},
-		},
-		{
-			positionName: "Engineering Manager",
-			id: "2931893",
-			location: "Amsterdam, UK",
-			postedDate: "Dec 26th, 2022",
-			company: {
-				name: "Netflix",
-				id: "38912",
-			},
-		},
-		{
-			positionName: "HR Business partner",
-			id: "i298304293",
-			location: "Amsterdam, UK",
-			postedDate: "Dec 26th, 2022",
-			company: {
-				name: "Amazon",
-				id: "38912",
-			},
-		},
-		{
-			positionName: "Associate Product Manager",
-			id: "283913",
-			location: "Amsterdam, UK",
-			postedDate: "Dec 26th, 2022",
-			company: {
-				name: "Salesforce",
-				id: "38912",
-			},
-		},
-	]);
 
 	return (
 		<Container>
-			<SearchBox />
+			<SearchBox
+				handleSearchTermSet={handleSearchTermSet}
+				searchTerm={searchTerm}
+				handleSearchSubmit={handleSearchSubmit}
+			/>
 			<div className="d-flex">
 				<div className="d-flex flex-column w-25">
-					<CheckboxList
-						items={companies}
-						setSelectedItemIds={handleCompaniesSelected}
-						searchLabel="Search Companies"
-						selectedItems={selectedCompanies}
-					/>
+					{companies && (
+						<CheckboxList
+							items={companies}
+							setSelectedItemIds={handleCompaniesSelected}
+							searchLabel="Search Companies"
+							selectedItems={selectedCompanies}
+						/>
+					)}
 					<hr />
-					<CheckboxList
-						items={departments}
-						setSelectedItemIds={handleDeptSelected}
-						searchLabel="Search Departments"
-						selectedItems={selectedDepartments}
-					/>
+					{departments && (
+						<CheckboxList
+							items={departments}
+							setSelectedItemIds={handleDeptSelected}
+							searchLabel="Search Departments"
+							selectedItems={selectedDepartments}
+						/>
+					)}
 					<hr />
-					<CheckboxList
-						items={locations}
-						setSelectedItemIds={handleLocationSelected}
-						searchLabel="Search Locations"
-						selectedItems={selectedLocations}
-					/>
+					{locations && (
+						<CheckboxList
+							items={locations}
+							setSelectedItemIds={handleLocationSelected}
+							searchLabel="Search Locations"
+							selectedItems={selectedLocations}
+						/>
+					)}
 					<hr />
 				</div>
 				<div className="min-vh-100 w-100 ms-3 mb-5">
+					<h4>{filteredJobPosts.length} results</h4>
 					<JobPosts jobPosts={filteredJobPosts} />
 				</div>
-
 			</div>
 		</Container>
 	);

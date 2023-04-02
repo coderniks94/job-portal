@@ -15,7 +15,7 @@ export default function CheckboxList({
 	};
 
 	const handleItemCheck = (itemId) => {
-		if (selectedItems.includes(itemId)) {
+		if (selectedItems && selectedItems.includes(itemId)) {
 			var checkedItemIds = selectedItems.filter((id) => id !== itemId);
 		} else {
 			var checkedItemIds = [...selectedItems, itemId];
@@ -38,7 +38,7 @@ export default function CheckboxList({
 	return (
 		<div>
 			<div className="mb-2">
-				{selectedItems.length > 0 && (
+				{selectedItems && selectedItems.length > 0 && (
 					<div className="mt-3">
 						{selectedItems.map((itemId) => (
 							<Badge key={itemId} pill className="mr-1">
@@ -74,7 +74,7 @@ export default function CheckboxList({
                         id={item.id+'-'+item.value}
 						type="checkbox"
 						label={item.label}
-						checked={selectedItems.includes(item.id)}
+						checked={selectedItems && selectedItems.includes(item.id)}
 						onChange={() => handleItemCheck(item.id)}
 					/>
 				</div>
