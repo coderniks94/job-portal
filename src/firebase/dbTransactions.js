@@ -1,3 +1,4 @@
+import { async } from "@firebase/util";
 import { doc, getDoc, collection, query, where, getDocs, getCountFromServer, orderBy, limit } from "firebase/firestore";
 import { firestore } from "./config";
 
@@ -77,4 +78,16 @@ export async function getFilteredJobPosts(companyIdList, departmentIdList, locat
 	});
     console.log("allDocs:", allDocs);
     return allDocs;
+}
+
+export async function getJobPostById(jobId) {
+	const docRef = doc(db, "jobs", jobId);
+	const docSnap = await getDoc(docRef);
+	if (docSnap.exists()) {
+		console.log("Document data:", docSnap.data());
+		return docSnap.data();
+	}
+
+	console.log("No such document!");
+	return null;
 }
