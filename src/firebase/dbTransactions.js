@@ -63,7 +63,7 @@ export async function getFilteredJobPosts(companyIdList, departmentIdList, locat
 
     var allDocs = [];
     const querySnapshot = await getDocs(q);
-    var searchTermCollection = searchTerm.toLowerCase().trim().split(/\s+/);
+    var searchTermCollection = searchTerm?.toLowerCase().trim().split(/\s+/);
     console.log("searchTermCollection",searchTermCollection);
 	querySnapshot.docs.forEach((doc) => {
         if(searchTerm){
@@ -82,6 +82,18 @@ export async function getFilteredJobPosts(companyIdList, departmentIdList, locat
 
 export async function getJobPostById(jobId) {
 	const docRef = doc(db, "jobs", jobId);
+	const docSnap = await getDoc(docRef);
+	if (docSnap.exists()) {
+		console.log("Document data:", docSnap.data());
+		return docSnap.data();
+	}
+
+	console.log("No such document!");
+	return null;
+}
+
+export async function getDocumentById(collection, id) {
+	const docRef = doc(db, collection, id);
 	const docSnap = await getDoc(docRef);
 	if (docSnap.exists()) {
 		console.log("Document data:", docSnap.data());

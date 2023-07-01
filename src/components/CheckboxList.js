@@ -60,11 +60,11 @@ export default function CheckboxList({
 					</div>
 				)}
 			</div>
-			<Form>
+			{/* <Form> */}
 				<FormControl
 					type="text"
 					placeholder={searchLabel ? searchLabel : "Search"}
-					className="mb-3"
+					className="mb-3 w-100"
 					value={searchTerm}
 					onChange={handleSearch}
 				/>
@@ -79,7 +79,7 @@ export default function CheckboxList({
 					/>
 				</div>
                 ))}
-			</Form>
+			{/* </Form> */}
 		</div>
 	);
 }

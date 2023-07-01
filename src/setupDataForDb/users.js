@@ -136,6 +136,25 @@ const users = [
 		],
 	},
 	{
+		id: "e1d9d3e085dd",
+		name: "Jacob Johnson",
+		email: "jacob.johnson@meta.com",
+		company: {
+			id: "9c056b8d8677",
+			name: "Meta",
+		},
+		roles: [
+			{
+				id: "98c4c12df838",
+				name: "company-admin",
+			},
+			{
+				id: "9bc3cf733ca2",
+				name: "hr",
+			},
+		],
+	},
+	{
 		id: "664eda77bad5",
 		name: "Isle Johnson",
 		email: "isle.johnson@meta.com",
@@ -150,6 +169,37 @@ const users = [
 			},
 		],
 	},
+	{
+		id: "664eda77bad5",
+		name: "Kyle Bernard",
+		email: "kyle.bernard@gmail.com",
+		company: {
+			id: "9c056b8d8677",
+			name: "Meta",
+		},
+		roles: [
+			{
+				id: '369ced115404',
+				name: 'job-seeker'
+			},
+		],
+	},
+	{
+		id: "664eda77bad5",
+		name: "Leonard Lester",
+		email: "leonard.lester@gmail.com",
+		company: {
+			id: "8256545b890f",
+			name: "Salesforce",
+		},
+		roles: [
+			{
+				id: '369ced115404',
+				name: 'job-seeker'
+			},
+		],
+	},
+	
 ];
 
 export default users;
