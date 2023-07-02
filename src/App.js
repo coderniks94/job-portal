@@ -26,7 +26,7 @@ function App() {
 					<Route path="/job-detail/:id" element={<JobDetailPage />} />
 					<Route path="/new-job" element={<AddNewJobPage />} />
 					<Route path="/register-company" element={<RegisterCompanyPage />} />
-					<Route path="/company-details" element={<CompanyDetailsPage />} />
+					<Route path="/company-details/:id" element={<CompanyDetailsPage />} />
 					<Route path="*" element={<NotFoundPage />} />
 				</Routes>
                 <PageFooter />

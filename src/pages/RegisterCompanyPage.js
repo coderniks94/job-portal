@@ -12,13 +12,16 @@ import CheckboxList from "../components/CheckboxList";
 import { uploadFileToDirectory } from "../firebase/storageTransactions";
 import { v4 as uuidv4 } from 'uuid';
 import { addDocumentsToCollection } from "../firebase/setupData";
+import { useNavigate } from "react-router-dom";
+import { getNewUuidV4 } from "../utils/uuidUtils";
 
 export default function RegisterCompanyPage() {
-    const [companyDetails, setCompanyDetails] = useState({ id: uuidv4().split('-')[4], name: '', addresses: [], officeLocations: [], companyAdmin: {}, companyDescription: '', companyLogoUrl: '', companyBannerUrl: '' });
+    const [companyDetails, setCompanyDetails] = useState({ id: getNewUuidV4(), name: '', addresses: [], officeLocations: [], companyAdmin: {}, companyDescription: '', companyLogoUrl: '', companyBannerUrl: '' });
     const [officeAddressCount, setOfficeAddressCount] = useState(1);
     const [officeLocationCount, setOfficeLocationCount] = useState(1);
     const [formError, setFormError] = useState("");
     const [allOfficeLocations, setAllOfficeLocations] = useState([]);
+    const navigate = useNavigate();
 
     const getAllOfficeLocations = async () => {
         var officeLocations = await getAllDocsFromCollection("officeLocations");
@@ -47,7 +50,10 @@ export default function RegisterCompanyPage() {
         } else {
             setFormError('');
             console.log("Valid form");
-            addDocumentsToCollection("companies", [companyDetails])
+            addDocumentsToCollection("companies", [companyDetails]).then(()=>{
+                navigate("/company-details/" + companyDetails.id);
+            });
+            
         }
         
     }
@@ -141,7 +147,7 @@ export default function RegisterCompanyPage() {
                     <br/>
                     <Form.Group>
                         <Dropdown>
-                            <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                                 Select Locations
                             </Dropdown.Toggle>
 

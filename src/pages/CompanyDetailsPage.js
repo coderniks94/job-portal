@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
-import useQueryParams from "../hooks/useQueryParams"
 import { Container } from "react-bootstrap";
 import { getDocumentById, getFilteredJobPosts } from "../firebase/dbTransactions";
 import JobPosts from "../components/JobPosts";
+import { useParams } from "react-router-dom";
 
 export default function CompanyDetailsPage() {
-    const { getQueryParam } = useQueryParams();
+    const { id: companyId } = useParams();
     const [companyData, setCompanyData] = useState();
     const [companyJobPosts, setCompanyJobPosts] = useState([]);
 
@@ -20,9 +20,7 @@ export default function CompanyDetailsPage() {
     }
 
     useEffect(() => {
-        const companyId = getQueryParam("id");
         console.log("companyId", companyId);
-        // getDocumentById("companies", companyId);
         fetchAndSetCompanyData(companyId);
         fetchAndSetJobPostsByCompany(companyId);
     }, [])
@@ -58,10 +56,15 @@ export default function CompanyDetailsPage() {
                     })
                 }
 
-                <div className="mb-5 mt-5">
-                <h5 className="mb-3">All Job Posts</h5>
-                <JobPosts jobPosts={companyJobPosts}/>
-                </div>
+                {
+                    companyJobPosts && companyJobPosts.length > 0 &&
+                    <div className="mb-5 mt-5">
+                        <h5 className="mb-3">All Job Posts</h5>
+                        <JobPosts jobPosts={companyJobPosts} />
+                    </div>
+                }
+
+
             </>}
 
 

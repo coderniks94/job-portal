@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card, Col, Row } from "react-bootstrap";
 import { getTopeSearchedCompaniesData } from "../firebase/dbTransactions";
+import { COMPANY_ID_URL_PARAM } from "../utils/constants";
 
 export default function TopSearchedCompanies() {
 	const [topSearchedCompanies, setTopSearchedCompanies] = useState([]);
@@ -32,7 +33,7 @@ export default function TopSearchedCompanies() {
 										</Card.Subtitle>
 										<Card.Link
 											href={
-												"/jobs-list?company-id=" +
+												"/jobs-list?"+COMPANY_ID_URL_PARAM + "=" +
 												company.id
 											}
 											className="stretched-link"></Card.Link>
