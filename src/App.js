@@ -11,6 +11,7 @@ import AdminPage from "./pages/AdminPage";
 import AddNewJobPage from "./pages/AddNewJobPage";
 import RegisterCompanyPage from "./pages/RegisterCompanyPage";
 import CompanyDetailsPage from "./pages/CompanyDetailsPage";
+import SignupPage from "./pages/SignupPage";
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
 			<div>
 				<Routes>
 					<Route path="/" element={<HomePage />} />
+					<Route path="/signup" element={<SignupPage />} />
 					<Route path="/about" element={<AboutPage />} />
 					<Route path="/admin" element={<AdminPage />} />
 					<Route path="/jobs-list" element={<JobListPage />} />

@@ -163,7 +163,7 @@ export default function JobDetailPage() {
 		<>
 			{jobPostData && (
 				<>
-					<div className="bg-secondary bg-gradient pt-3 pb-3 text-light">
+					<div className="bg-dark bg-gradient pt-3 pb-3 text-light">
 						<Container className="d-flex justify-content-between align-items-start">
 							<div>
 								<h2>{jobPostData.positionName}</h2>
@@ -173,7 +173,7 @@ export default function JobDetailPage() {
 								<h5>Req ID: {jobPostData.id}</h5>
 								<h5>Work Persona: {jobPostData.workPersona}</h5>
 							</div>
-							<Button variant="primary" className="w-25" onClick={handleApplyButtonClick}>
+							<Button variant="success" className="w-25" onClick={handleApplyButtonClick}>
 								Apply
 							</Button>
 
