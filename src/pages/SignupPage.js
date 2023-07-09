@@ -33,6 +33,7 @@ import { getNewUuidV4 } from "../utils/uuidUtils";
 import { getAllDocsFromCollection } from "../firebase/dbTransactions";
 import { signupUser } from "../firebase/auth";
 import { addDocumentsToCollection } from "../firebase/setupData";
+import { Link, useNavigate } from "react-router-dom";
 
 // full name, email, company, password, repeat password
 
@@ -42,6 +43,7 @@ export default function SignupPage() {
     const [signupAs, setSignupAs] = useState('job-seeker');
     const [allRoles, setAllRoles] = useState([]);
     const [formValidationError, setFormValidationError] = useState('');
+    const navigate = useNavigate();
 
     async function fetchAllRoles() {
         var data = await getAllDocsFromCollection("roles");
@@ -76,7 +78,7 @@ export default function SignupPage() {
             });
         } else {
             assignedRoles = allRoles.filter((role)=>{
-                return role.name == 'hiring-manager' || role.name == 'company-admin'
+                return role.name == 'hr' || role.name == 'company-admin'
             });
         }
         return assignedRoles;
@@ -97,7 +99,9 @@ export default function SignupPage() {
                 email: user.email,
                 name: signupDetails.name,
                 roles: signupDetails.roles
-            }]);
+            }]).then(()=>{
+                navigate("/");
+            });
         }
     }
 
@@ -153,7 +157,7 @@ export default function SignupPage() {
     }
 
     return (
-        <Container className="d-flex justify-content-center align-items-center h-100">
+        <Container className="d-flex justify-content-center h-100">
             <Form className="border border-primary rounded w-50 m-5 p-3" onSubmit={handleFormSubmit}>
                 <ToggleButtonGroup type="radio" value={signupAs} name="signupAsRadio" className="w-100" onChange={handleSignupAsChange} variant="dark">
                     <ToggleButton id="tbg-btn-1" value="recruiter" variant="light">
@@ -189,6 +193,7 @@ export default function SignupPage() {
                 </Alert>}
 
                 <Button type="submit" className="w-100 mt-5">Signup</Button>
+                <div className="d-flex justify-content-center mt-3"><Link to="/login">Already have an account? Login...</Link></div>
             </Form>
 
         </Container>

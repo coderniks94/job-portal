@@ -12,11 +12,14 @@ import CheckboxList from "../components/CheckboxList";
 import { uploadFileToDirectory } from "../firebase/storageTransactions";
 import { v4 as uuidv4 } from 'uuid';
 import { addDocumentsToCollection } from "../firebase/setupData";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { getNewUuidV4 } from "../utils/uuidUtils";
+import { isUserCompanyAdmin } from "../utils/userUtils";
+import NoAccess from "../components/NoAccess";
 
 export default function RegisterCompanyPage() {
-    const [companyDetails, setCompanyDetails] = useState({ id: getNewUuidV4(), name: '', addresses: [], officeLocations: [], companyAdmin: {}, companyDescription: '', companyLogoUrl: '', companyBannerUrl: '' });
+    const { user } = useOutletContext();
+    const [companyDetails, setCompanyDetails] = useState({ id: getNewUuidV4(), name: '', addresses: [], officeLocations: [], companyAdmin: { id: user.additionalDetails.id, name: user.additionalDetails.name, email: user.additionalDetails.email }, companyDescription: '', companyLogoUrl: '', companyBannerUrl: '' });
     const [officeAddressCount, setOfficeAddressCount] = useState(1);
     const [officeLocationCount, setOfficeLocationCount] = useState(1);
     const [formError, setFormError] = useState("");
@@ -39,7 +42,7 @@ export default function RegisterCompanyPage() {
 
     // TODO: remove this later
     useEffect(function () {
-        console.log("companyDetails: ", companyDetails)
+        console.log("companyDetails: ", companyDetails);
     }, [companyDetails])
 
     const handleFormSubmit = function (event) {
@@ -50,6 +53,11 @@ export default function RegisterCompanyPage() {
         } else {
             setFormError('');
             console.log("Valid form");
+            user.additionalDetails.company = {
+                id: companyDetails.id,
+                name: companyDetails.name
+            }
+            addDocumentsToCollection("users", [user.additionalDetails]);
             addDocumentsToCollection("companies", [companyDetails]).then(()=>{
                 navigate("/company-details/" + companyDetails.id);
             });
@@ -121,6 +129,9 @@ export default function RegisterCompanyPage() {
         })
     }
 
+    if(!isUserCompanyAdmin(user)) {
+        return <NoAccess/>
+    }
 
 
     return (

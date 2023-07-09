@@ -4,10 +4,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { getAllDocsFromCollection, getDocumentById } from "../firebase/dbTransactions";
 import { serverTimestamp } from "firebase/firestore";
 import { addDocumentsToCollection } from "../firebase/setupData";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { isUserCompanyAdmin } from "../utils/userUtils";
+import NoAccess from "../components/NoAccess";
 
 const AddNewJobPage = () => {
-	const [newJobDetails, setNewJobDetails] = useState({ id: uuidv4().split('-')[4], company: {id: "select"}, additionalInfo: '', department: {id: "select"}, jobDescription: '', location: {id: "select"}, positionName: '', postedDate: serverTimestamp(new Date()), qualifications: '', status: 'Open', workPersona: 'Flexible' })
+	const { user } = useOutletContext();
+	const [newJobDetails, setNewJobDetails] = useState({ id: uuidv4().split('-')[4], company: {id: "select"}, additionalInfo: '', department: {id: "select"}, jobDescription: '', location: {id: "select"}, positionName: '', postedDate: serverTimestamp(new Date()), qualifications: '', status: 'Open', workPersona: 'Flexible', postedBy: user.additionalDetails })
 	const [allCompanies, setAllCompanies] = useState([]);
 	const [allDepartments, setAllDepartments] = useState([]);
 	const [allLocations, setAllLocations] = useState([]);
@@ -17,11 +20,18 @@ const AddNewJobPage = () => {
 	const navigate = useNavigate();
 
 	async function fetchAllCompanies() {
-		const data = await getAllDocsFromCollection("companies");
-		console.log("all cmpanies:", data);
+		var data = [];
+		if(user && user.additionalDetails?.company?.id) {
+			data = [await getDocumentById("companies", user.additionalDetails.company.id)];
+		} else {
+			data = await getAllDocsFromCollection("companies");
+		}
+		
+		console.log("all companies:", data);
 		setAllCompanies(data);
-		const defaultCompany = getFilteresCompanyProperties(data[0]);
-		setNewJobDetails({...newJobDetails, company: defaultCompany})
+		const defaultCompany = getFilteredCompanyProperties(data[0]);
+		setNewJobDetails({...newJobDetails, company: defaultCompany, location: data[0].officeLocations[0]});
+		setAllLocations(data[0].officeLocations);
 	}
 
 	async function fetchAllDepartments() {
@@ -31,14 +41,7 @@ const AddNewJobPage = () => {
 		setNewJobDetails({...newJobDetails, department: data[0]})
 	}
 
-	async function fetchAllLocations() {
-		const data = await getAllDocsFromCollection("officeLocations");
-		console.log("all officeLocations:", data);
-		setAllLocations(data);
-		setNewJobDetails({...newJobDetails, location: data[0]})
-	}
-
-	function getFilteresCompanyProperties(company){
+	function getFilteredCompanyProperties(company){
 		const {id, name, companyLogoUrl, companyDescription} = company;
 		return {id, name, companyDescription, companyLogoUrl};
 	}
@@ -46,12 +49,11 @@ const AddNewJobPage = () => {
 	function fetchAllData() {
 		fetchAllCompanies();
 		fetchAllDepartments();
-		fetchAllLocations();
 	}
 
 	useEffect(()=>{
 		fetchAllData();
-	}, [])
+	}, [user]);
 
 	useEffect(()=>{
 		console.log("newJobDetails: ",newJobDetails)
@@ -64,7 +66,7 @@ const AddNewJobPage = () => {
 			var selectedCompany = allCompanies.filter((com)=>{
 				return com.id === e.target.value;
 			})[0];
-			inputValue = getFilteresCompanyProperties(selectedCompany);
+			inputValue = getFilteredCompanyProperties(selectedCompany);
 		}
 		if(inputName == "department") {
 			var selectedDep = allDepartments.filter((dep)=>{
@@ -157,6 +159,10 @@ const AddNewJobPage = () => {
 		return {
 			status: "success"
 		}
+	}
+
+	if(!isUserCompanyAdmin(user)) {
+		return <NoAccess/>
 	}
 
 	return (

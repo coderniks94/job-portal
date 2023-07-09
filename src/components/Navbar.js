@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import {
 	Navbar,
 	Nav,
@@ -8,20 +8,30 @@ import {
 	Image,
 	Button,
 } from "react-bootstrap";
+import { isRecruiterDashboardVisible } from "../utils/userUtils";
 
-const MyNavbar = () => {
+const MyNavbar = (props) => {
+	// const { user } = useOutletContext();
+	const { user } = props;
+	const navigate = useNavigate();
+	console.log("Navbar:user", user);
+
+	function handleGetStartedClick() {
+		navigate("/get-started");
+	}
+
 	const getProfileMenuDropdownView = function () {
 		return (
 			<NavDropdown
 				title={
 					<>
-						<Image
+						{/* <Image
 							src="/profile-picture.jpg"
 							roundedCircle
 							width="30"
 							height="30"
 							className="mr-2"
-						/>
+						/> */}
 						Profile
 					</>
 				}
@@ -42,13 +52,16 @@ const MyNavbar = () => {
 	return (
 		<Navbar bg="dark" variant="dark" expand="lg">
 			<Container>
-				<Navbar.Brand href="/">Job Portal</Navbar.Brand>
+				<Link to="/" className="text-decoration-none"><Navbar.Brand>Job Portal</Navbar.Brand></Link>
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">
 					<Nav className="d-flex">
 						<Nav.Link as={Link} to="/">
 							Home
 						</Nav.Link>
+						{isRecruiterDashboardVisible(user) && <Nav.Link as={Link} to="/recruiter-dashboard">
+							My Dashboard
+						</Nav.Link>}
 						<Nav.Link as={Link} to="/about">
 							About
 						</Nav.Link>
@@ -57,10 +70,10 @@ const MyNavbar = () => {
 						</Nav.Link>
 					</Nav>
 					<Nav className="ms-auto">
-						<Button variant="light" className="mr-2" size="sm">
+						{!user && <Button variant="light" className="mr-2" size="sm" onClick={handleGetStartedClick}>
 							Get Started
-						</Button>
-						{/* {getProfileMenuDropdownView()} */}
+						</Button>}
+						{user && getProfileMenuDropdownView()}
 					</Nav>
 				</Navbar.Collapse>
 			</Container>

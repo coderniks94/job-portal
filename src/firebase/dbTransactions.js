@@ -5,17 +5,17 @@ import { firestore } from "./config";
 const db = firestore;
 
 export async function getTopeSearchedCompaniesData() {
-	var q = query(collection(db, "companies"));
+    var q = query(collection(db, "companies"));
 
     var allCompanies = [];
 
-	const querySnapshot = await getDocs(q);
-	querySnapshot.forEach((doc) => {
-        const {id, name} = doc.data();
-        allCompanies.push({id, name});
-	});
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        const { id, name } = doc.data();
+        allCompanies.push({ id, name });
+    });
 
-    for(var i=0;i<allCompanies.length;i++) {
+    for (var i = 0; i < allCompanies.length; i++) {
         q = query(collection(db, "jobs"), where("company.id", "==", allCompanies[i].id));
         var snapshot = await getCountFromServer(q);
         allCompanies[i].openPositions = snapshot.data().count;
@@ -29,10 +29,10 @@ export async function getRecentJobPostsData() {
     var q = query(collection(db, "jobs"), orderBy('postedDate'), limit(10));
     const querySnapshot = await getDocs(q);
     var jobPosts = [];
-	querySnapshot.forEach((doc) => {
-        const {id, positionName, company, postedDate, location} = doc.data();
-        jobPosts.push( {id, positionName, company, postedDate, location});
-	});
+    querySnapshot.forEach((doc) => {
+        const { id, positionName, company, postedDate, location } = doc.data();
+        jobPosts.push({ id, positionName, company, postedDate, location });
+    });
 
     console.log("jobPosts:", jobPosts);
     return jobPosts;
@@ -43,11 +43,11 @@ export async function getAllDocsFromCollection(collectionName) {
 
     var allDocs = [];
 
-	const querySnapshot = await getDocs(q);
-	querySnapshot.forEach((doc) => {
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
         // const {id, name} = doc.data();
         allDocs.push(doc.data());
-	});
+    });
     return allDocs;
 }
 
@@ -64,42 +64,44 @@ export async function getFilteredJobPosts(companyIdList, departmentIdList, locat
     var allDocs = [];
     const querySnapshot = await getDocs(q);
     var searchTermCollection = searchTerm?.toLowerCase().trim().split(/\s+/);
-    console.log("searchTermCollection",searchTermCollection);
-	querySnapshot.docs.forEach((doc) => {
-        if(searchTerm){
+    console.log("searchTermCollection", searchTermCollection);
+    querySnapshot.docs.forEach((doc) => {
+        if (searchTerm) {
             var isResultIncluded = false;
-            searchTermCollection.forEach((st)=>{
+            searchTermCollection.forEach((st) => {
                 isResultIncluded = isResultIncluded || doc.data().positionName.toLowerCase().includes(st);
             })
             isResultIncluded && allDocs.push(doc.data())
         }
         else
             allDocs.push(doc.data());
-	});
+    });
     console.log("allDocs:", allDocs);
     return allDocs;
 }
 
 export async function getJobPostById(jobId) {
-	const docRef = doc(db, "jobs", jobId);
-	const docSnap = await getDoc(docRef);
-	if (docSnap.exists()) {
-		console.log("Document data:", docSnap.data());
-		return docSnap.data();
-	}
+    const docRef = doc(db, "jobs", jobId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+        return docSnap.data();
+    }
 
-	console.log("No such document!");
-	return null;
+    console.log("No such document!");
+    return null;
 }
 
 export async function getDocumentById(collection, id) {
-	const docRef = doc(db, collection, id);
-	const docSnap = await getDoc(docRef);
-	if (docSnap.exists()) {
-		console.log("Document data:", docSnap.data());
-		return docSnap.data();
-	}
+    if (!collection || !id) return null;
 
-	console.log("No such document!");
-	return null;
+    const docRef = doc(db, collection, id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+        return docSnap.data();
+    }
+
+    console.log("No such document!");
+    return null;
 }

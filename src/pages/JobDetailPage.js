@@ -1,7 +1,7 @@
 import { async } from "@firebase/util";
 import { useEffect, useState } from "react";
 import { Alert, Button, Container, Form, InputGroup, Modal } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link, useOutlet, useOutletContext, useParams } from "react-router-dom";
 import { getJobPostById } from "../firebase/dbTransactions";
 import useQueryParams from "../hooks/useQueryParams";
 import parse from 'html-react-parser';
@@ -9,9 +9,13 @@ import { getNewUuidV4 } from "../utils/uuidUtils";
 import { serverTimestamp } from "firebase/firestore";
 import { uploadFileToDirectory } from "../firebase/storageTransactions";
 import { addDocumentsToCollection } from "../firebase/setupData";
+import { isUserJobSeeker, isViewApplicantsButtonVisible } from "../utils/userUtils";
+import ApplyJobForm from "../components/ApplyJobForm";
 
 export default function JobDetailPage() {
+	const { user } = useOutletContext();
 	const [showApplyJobFormModal, setShowApplyJobFormModal] = useState(false);
+	const [showViewApplicantsModal, setShowViewApplicantsModal] = useState(false);
 	const [jobPostData, setJobPostData] = useState();
 
 	// default candidate id below needs to be set to logged in candidate
@@ -45,6 +49,14 @@ export default function JobDetailPage() {
 	};
 	const handleApplyFormClose = () => {
 		setShowApplyJobFormModal(false);
+	};
+
+	const handleViewApplicantsButtonClick = () => {
+		setShowViewApplicantsModal(true);
+	};
+
+	const handleViewApplicantsModalClose = () => {
+		setShowViewApplicantsModal(false);
 	};
 
 	function handleInputChange(e) {
@@ -116,45 +128,21 @@ export default function JobDetailPage() {
 					<Modal.Title>Apply to job requisition</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<Form onSubmit={handleFormSubmit}>
-						{/* disable if user logged in */}
-						<Form.Group className="mb-3" controlId="fullName">
-							<Form.Label>Full Name</Form.Label>
-							<Form.Control type="text" placeholder="John Doe" name="name" value={jobApplication.candidateDetail.name} onChange={(e) => handleInputChange(e)} />
-						</Form.Group>
-
-						{/* disable if user logged in */}
-						<Form.Group className="mb-3" controlId="email">
-							<Form.Label>Email address</Form.Label>
-							<Form.Control type="email" placeholder="name@example.com" name="email" value={jobApplication.candidateDetail.email} onChange={(e) => handleInputChange(e)} />
-						</Form.Group>
-
-						{/* disable if user logged in */}
-						<Form.Group className="mb-3" controlId="phone">
-							<Form.Label>Contact no.</Form.Label>
-							<Form.Control type="number" placeholder="+91 9999999999" name="contact" value={jobApplication.candidateDetail.contact} onChange={(e) => handleInputChange(e)} />
-						</Form.Group>
-
-						{/* option to change resume if user logged in */}
-						<Form.Group controlId="resume" className="mb-3">
-							<Form.Label>Upload your resume (doc/pdf)</Form.Label>
-							<Form.Control type="file" onChange={(e) => handleResumeUpload(e)} />
-						</Form.Group>
-
-						<Button variant="secondary" onClick={handleApplyFormClose}>
-							Close
-						</Button>
-						<Button variant="primary" type="submit">
-							Apply
-						</Button>
-						{formValidationError && <Alert variant={"danger"} className="mb-3">
-							{formValidationError}
-						</Alert>}
-					</Form>
+					<ApplyJobForm formValidationError={formValidationError} handleApplyFormClose={handleApplyFormClose} handleResumeUpload={handleResumeUpload} jobApplication={jobApplication} handleFormSubmit={handleFormSubmit} handleInputChange={handleInputChange} />
 				</Modal.Body>
-				<Modal.Footer>
-					
-				</Modal.Footer>
+			</Modal>
+		);
+	};
+
+	const getViewApplicantsModalView = function () {
+		return (
+			<Modal show={showViewApplicantsModal} onHide={handleViewApplicantsModalClose}>
+				<Modal.Header closeButton>
+					<Modal.Title>View all applicants</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					Applicants list
+				</Modal.Body>
 			</Modal>
 		);
 	};
@@ -173,11 +161,16 @@ export default function JobDetailPage() {
 								<h5>Req ID: {jobPostData.id}</h5>
 								<h5>Work Persona: {jobPostData.workPersona}</h5>
 							</div>
-							<Button variant="success" className="w-25" onClick={handleApplyButtonClick}>
+							{isUserJobSeeker(user) && <Button variant="success" className="w-25" onClick={handleApplyButtonClick}>
 								Apply
-							</Button>
+							</Button>}
+
+							{isViewApplicantsButtonVisible(user) && <Button variant="success" className="w-25" onClick={handleViewApplicantsButtonClick}>
+								View all applicants
+							</Button>}
 
 							{getApplyJobModalView()}
+							{getViewApplicantsModalView()}
 						</Container>
 					</div>
 					<Container className="mt-3">

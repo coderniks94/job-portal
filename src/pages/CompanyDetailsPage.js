@@ -3,6 +3,7 @@ import { Container } from "react-bootstrap";
 import { getDocumentById, getFilteredJobPosts } from "../firebase/dbTransactions";
 import JobPosts from "../components/JobPosts";
 import { useParams } from "react-router-dom";
+import CompanyDetails from "../components/CompanyDetails";
 
 export default function CompanyDetailsPage() {
     const { id: companyId } = useParams();
@@ -27,6 +28,7 @@ export default function CompanyDetailsPage() {
     return (
 
         <Container>
+            {/* <CompanyDetails companyData={companyData} companyJobPosts={companyJobPosts}/> */}
             {!companyData && <p>Loading...</p>}
             {companyData && <>
                 <div className="d-flex flex-row mt-5 mb-3">
