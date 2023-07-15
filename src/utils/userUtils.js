@@ -25,6 +25,15 @@ export function isUserHiringManager(user) {
     });
 }
 
+export function isUserAdmin(user) {
+    if(!user || !('additionalDetails' in user)){
+        return false;
+    }
+    return user.additionalDetails.roles.some((role)=>{
+        return role.name == 'admin';
+    });
+}
+
 export function isRecruiterDashboardVisible(user) {
     return  isUserCompanyAdmin(user);
 }

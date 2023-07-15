@@ -6,12 +6,12 @@ export default function JobPosts(props) {
 	const { jobPosts } = props;
 
 	return (
-		<>
+		<div className="mb-3">
 			{jobPosts &&
 				jobPosts.length > 0 &&
 				jobPosts.map((req) => {
 					return (
-						<Card className="mt-2 " key={req.id}>
+						<Card className="mt-2" key={req.id}>
 							<Card.Header className="d-flex">
 								<h5>{req.positionName}</h5>
 								<span className="ms-auto">
@@ -45,6 +45,6 @@ export default function JobPosts(props) {
 						</Card>
 					);
 				})}
-		</>
+		</div>
 	);
 }

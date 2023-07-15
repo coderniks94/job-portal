@@ -11,7 +11,7 @@ import { getAllDocsFromCollection } from "../firebase/dbTransactions";
 import CheckboxList from "../components/CheckboxList";
 import { uploadFileToDirectory } from "../firebase/storageTransactions";
 import { v4 as uuidv4 } from 'uuid';
-import { addDocumentsToCollection } from "../firebase/setupData";
+import { addDocumentsToCollection } from "../firebase/dbTransactions";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { getNewUuidV4 } from "../utils/uuidUtils";
 import { isUserCompanyAdmin } from "../utils/userUtils";
@@ -19,7 +19,7 @@ import NoAccess from "../components/NoAccess";
 
 export default function RegisterCompanyPage() {
     const { user } = useOutletContext();
-    const [companyDetails, setCompanyDetails] = useState({ id: getNewUuidV4(), name: '', addresses: [], officeLocations: [], companyAdmin: { id: user.additionalDetails.id, name: user.additionalDetails.name, email: user.additionalDetails.email }, companyDescription: '', companyLogoUrl: '', companyBannerUrl: '' });
+    const [companyDetails, setCompanyDetails] = useState({ id: getNewUuidV4(), name: '', addresses: [], officeLocations: [], companyAdmin: { id: '', name: '', email: '' }, companyDescription: '', companyLogoUrl: '', companyBannerUrl: '' });
     const [officeAddressCount, setOfficeAddressCount] = useState(1);
     const [officeLocationCount, setOfficeLocationCount] = useState(1);
     const [formError, setFormError] = useState("");
@@ -44,6 +44,20 @@ export default function RegisterCompanyPage() {
     useEffect(function () {
         console.log("companyDetails: ", companyDetails);
     }, [companyDetails])
+
+    // useEffect(function(){
+    //     if(user && user.additionalDetails) {
+    //         setCompanyDetails({
+    //             ...companyDetails,
+    //             companyAdmin: {
+    //                 ...companyDetails.companyAdmin,
+    //                 id: user.additionalDetails.id,
+    //                 name: user.additionalDetails.name,
+    //                 email: user.additionalDetails.email
+    //             }
+    //         })
+    //     }
+    // }, [user])
 
     const handleFormSubmit = function (event) {
         event.preventDefault();
@@ -131,6 +145,8 @@ export default function RegisterCompanyPage() {
 
     if(!isUserCompanyAdmin(user)) {
         return <NoAccess/>
+    } else if(user.additionalDetails?.company?.id) {
+        return <Container className="mt-5"><h5>Company already registered</h5></Container>
     }
 
 

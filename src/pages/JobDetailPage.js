@@ -2,24 +2,27 @@ import { async } from "@firebase/util";
 import { useEffect, useState } from "react";
 import { Alert, Button, Container, Form, InputGroup, Modal } from "react-bootstrap";
 import { Link, useOutlet, useOutletContext, useParams } from "react-router-dom";
-import { getJobPostById } from "../firebase/dbTransactions";
+import { getAllApplicantsByJobId, getJobPostById, getUserApplicationsForJob } from "../firebase/dbTransactions";
 import useQueryParams from "../hooks/useQueryParams";
 import parse from 'html-react-parser';
 import { getNewUuidV4 } from "../utils/uuidUtils";
 import { serverTimestamp } from "firebase/firestore";
 import { uploadFileToDirectory } from "../firebase/storageTransactions";
-import { addDocumentsToCollection } from "../firebase/setupData";
+import { addDocumentsToCollection } from "../firebase/dbTransactions";
 import { isUserJobSeeker, isViewApplicantsButtonVisible } from "../utils/userUtils";
 import ApplyJobForm from "../components/ApplyJobForm";
+import ApplicantsList from "../components/ApplicantsList";
 
 export default function JobDetailPage() {
 	const { user } = useOutletContext();
 	const [showApplyJobFormModal, setShowApplyJobFormModal] = useState(false);
 	const [showViewApplicantsModal, setShowViewApplicantsModal] = useState(false);
 	const [jobPostData, setJobPostData] = useState();
+	const [applicantsList, setApplicantsList] = useState([]);
+	const [userAppliedToCurrentJob, setUserAppliedToCurrentJob] = useState(false);
 
 	// default candidate id below needs to be set to logged in candidate
-	const [jobApplication, setJobApplication] = useState({ id: getNewUuidV4(), jobDetail: { id: '', positionName: '', department: { id: '', name: '' }, location: { id: '', city: '', state: '', country: '' } }, candidateDetail: { id: getNewUuidV4(), name: '', email: '', contact: '', resumeLink: '' }, applyDate: serverTimestamp(new Date()) })
+	const [jobApplication, setJobApplication] = useState({ id: getNewUuidV4(), jobDetail: { id: '', positionName: '', company: {id: '', name: ''}, department: { id: '', name: '' }, location: { id: '', city: '', state: '', country: '' } }, candidateDetail: { id: getNewUuidV4(), name: '', email: '', contact: '', resumeLink: '' }, applyDate: serverTimestamp(new Date()) })
 	const [formValidationError, setFormValidationError] = useState('');
 
 	const { id } = useParams();
@@ -29,14 +32,53 @@ export default function JobDetailPage() {
 	const getJobPostData = async function () {
 		var data = await getJobPostById(id);
 		setJobPostData(data);
-		setJobApplication({ ...jobApplication, jobDetail: { ...jobApplication.jobDetail, id: data.id, positionName: data.positionName, department: data.department, location: data.location } });
+		setJobApplication({ ...jobApplication, jobDetail: {
+			...jobApplication.jobDetail,
+			id: data.id,
+			positionName: data.positionName,
+			department: data.department,
+			location: data.location,
+			postedDate: data.postedDate,
+			company: {
+				...jobApplication.jobDetail.company,
+				id: data.company.id,
+				name: data.company.name,
+				companyLogoUrl: data.company.companyLogoUrl
+			}
+		}});
 	};
+
+	async function checkIfUserAppliedToCurrentJob() {
+		if(jobPostData) {
+			const userApplicationForCurrentJob = await getUserApplicationsForJob(user.additionalDetails.id, jobPostData.id);
+			console.log("userApplicationForCurrentJob:",userApplicationForCurrentJob);
+			if(userApplicationForCurrentJob.length > 0) {
+				console.log("User applied to current job");
+				setUserAppliedToCurrentJob(true);
+			}
+		}
+	}
+
+	const setJobApplicationCandidateDetail = function() {
+		setJobApplication({...jobApplication, candidateDetail: {
+			...jobApplication.candidateDetail,
+			id: user.additionalDetails.id,
+			name: user.additionalDetails.name,
+			email: user.additionalDetails.email
+		}})
+	}
 
 	useEffect(() => {
 		console.log("jobApplication: ", jobApplication); // needs to be deleted later
 
-		// TODO: check if user already exist then set user id as that or if user logged in then their user id
 	}, [jobApplication]);
+
+	useEffect(()=>{
+		if(user) {
+			checkIfUserAppliedToCurrentJob()
+			setJobApplicationCandidateDetail();
+		}
+	}, [user]);
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -51,7 +93,14 @@ export default function JobDetailPage() {
 		setShowApplyJobFormModal(false);
 	};
 
+	const fetchAndSetAllApplicants = async function() {
+		const applicationsList = await getAllApplicantsByJobId(jobPostData.id);
+		console.log("applicationsList:", applicationsList);
+		setApplicantsList(applicationsList);
+	}
+
 	const handleViewApplicantsButtonClick = () => {
+		fetchAndSetAllApplicants()
 		setShowViewApplicantsModal(true);
 	};
 
@@ -82,6 +131,7 @@ export default function JobDetailPage() {
 			addDocumentsToCollection("jobApplications", [jobApplication]).then(() => {
 				console.log("New job application added successfully");
 				setShowApplyJobFormModal(false);
+				setUserAppliedToCurrentJob(true);
 			});
 		}
 
@@ -141,7 +191,7 @@ export default function JobDetailPage() {
 					<Modal.Title>View all applicants</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					Applicants list
+					<ApplicantsList applicantsList={applicantsList}/>
 				</Modal.Body>
 			</Modal>
 		);
@@ -155,15 +205,20 @@ export default function JobDetailPage() {
 						<Container className="d-flex justify-content-between align-items-start">
 							<div>
 								<h2>{jobPostData.positionName}</h2>
-								<h5>Company: <Link to={"/company-details/" + jobPostData.company.id} className="link-light" target="_blank">{jobPostData.company.name}</Link></h5>
+								<h5>Company: <Link to={"/company-details/" + jobPostData.company.id} className="link-light" target="_blank">{jobPostData.company.name}</Link><i className="bi bi-box-arrow-up-right ms-1"></i></h5>
 								<h5>Department: {jobPostData.department.name}</h5>
 								<h5>Location: {jobPostData.location.city + ', ' + jobPostData.location.state + ', ' + jobPostData.location.country}</h5>
 								<h5>Req ID: {jobPostData.id}</h5>
 								<h5>Work Persona: {jobPostData.workPersona}</h5>
 							</div>
-							{isUserJobSeeker(user) && <Button variant="success" className="w-25" onClick={handleApplyButtonClick}>
+							{isUserJobSeeker(user) && 
+							<div className="d-flex flex-column w-25 justify-content-center align-items-center">
+							<Button variant="success" className="w-100" onClick={handleApplyButtonClick} disabled={userAppliedToCurrentJob}>
 								Apply
-							</Button>}
+							</Button>
+							{userAppliedToCurrentJob && <p>You have already applied to this position</p>}
+							</div>
+							}
 
 							{isViewApplicantsButtonVisible(user) && <Button variant="success" className="w-25" onClick={handleViewApplicantsButtonClick}>
 								View all applicants

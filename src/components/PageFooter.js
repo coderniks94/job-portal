@@ -9,31 +9,24 @@ export default function PageFooter() {
                 <div className="pt-4 pb-5 d-flex">
                     <div className="w-100">
                         <Link
-                            to="/home"
+                            to="/"
                             className="link-light text-decoration-none"
                         >
                             Home
                         </Link>
                         <br />
                         <Link
-                            to="/home"
+                            to="/about"
                             className="link-light text-decoration-none"
                         >
                             About
                         </Link>
                         <br />
                         <Link
-                            to="/recruiter-start-page"
+                            to="/get-started"
                             className="link-light text-decoration-none"
                         >
-                            Recruiters start here
-                        </Link>
-                        <br />
-                        <Link
-                            to="/recruiter-start-page"
-                            className="link-light text-decoration-none"
-                        >
-                            Job seekers start here
+                            Get started here
                         </Link>
                     </div>
                     <div className="w-100 d-flex flex-column align-items-end">

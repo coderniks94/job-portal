@@ -3,7 +3,7 @@ import { Alert, Button, Container, Form } from "react-bootstrap";
 import { v4 as uuidv4 } from 'uuid';
 import { getAllDocsFromCollection, getDocumentById } from "../firebase/dbTransactions";
 import { serverTimestamp } from "firebase/firestore";
-import { addDocumentsToCollection } from "../firebase/setupData";
+import { addDocumentsToCollection } from "../firebase/dbTransactions";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { isUserCompanyAdmin } from "../utils/userUtils";
 import NoAccess from "../components/NoAccess";

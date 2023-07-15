@@ -1,13 +1,20 @@
 import { Button, Container } from "react-bootstrap";
-import { addDocumentsToCollection } from "../firebase/setupData";
+import { addDocumentsToCollection } from "../firebase/dbTransactions";
 import companies from "../setupDataForDb/companies";
 import departments from "../setupDataForDb/departments";
 import jobs from "../setupDataForDb/jobs";
 import officeLocations from "../setupDataForDb/officeLocations";
 import roles from "../setupDataForDb/roles";
 import users from "../setupDataForDb/users";
+import { useOutletContext } from "react-router-dom";
+import { isUserAdmin } from "../utils/userUtils";
+import NoAccess from "../components/NoAccess";
 
 export default function AdminPage() {
+	const { user } = useOutletContext();
+	if(!isUserAdmin(user))
+		return <NoAccess/>
+		
     return (
 		<Container>
 			<Button variant="primary" className="w-25 mt-2">

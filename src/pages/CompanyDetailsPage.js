@@ -40,7 +40,7 @@ export default function CompanyDetailsPage() {
                 </div>
 
 
-                {companyData.companyAdmin?.name && <h5>Company admin: {companyData.companyAdmin.name}</h5>}
+                {/* {companyData.companyAdmin?.name && <h5>Company admin: {companyData.companyAdmin.name}</h5>} */}
 
                 <h5>Addresses:</h5>
                 {companyData.addresses && companyData.addresses.length > 0 && companyData.addresses[0] && companyData.addresses.map((address) => {

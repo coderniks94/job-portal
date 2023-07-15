@@ -32,8 +32,10 @@ import { Alert, Button, Container, Form, FormGroup, ToggleButton, ToggleButtonGr
 import { getNewUuidV4 } from "../utils/uuidUtils";
 import { getAllDocsFromCollection } from "../firebase/dbTransactions";
 import { signupUser } from "../firebase/auth";
-import { addDocumentsToCollection } from "../firebase/setupData";
-import { Link, useNavigate } from "react-router-dom";
+import { addDocumentsToCollection } from "../firebase/dbTransactions";
+import { Link, useNavigate, useOutlet, useOutletContext } from "react-router-dom";
+import ExploreTestCredentials from "../components/ExploreTestCredentials";
+import LoggedInUserRedirectHome from "../components/LoggedInUserRedirectHome";
 
 // full name, email, company, password, repeat password
 
@@ -43,6 +45,7 @@ export default function SignupPage() {
     const [signupAs, setSignupAs] = useState('job-seeker');
     const [allRoles, setAllRoles] = useState([]);
     const [formValidationError, setFormValidationError] = useState('');
+    const {user} = useOutletContext();
     const navigate = useNavigate();
 
     async function fetchAllRoles() {
@@ -156,6 +159,10 @@ export default function SignupPage() {
         return signupAs === 'job-seeker' ? 'Enter personal email id' : 'Enter company email id';
     }
 
+    if(user){
+        return <LoggedInUserRedirectHome/>
+    }
+
     return (
         <Container className="d-flex justify-content-center h-100">
             <Form className="border border-primary rounded w-50 m-5 p-3" onSubmit={handleFormSubmit}>
@@ -194,6 +201,8 @@ export default function SignupPage() {
 
                 <Button type="submit" className="w-100 mt-5">Signup</Button>
                 <div className="d-flex justify-content-center mt-3"><Link to="/login">Already have an account? Login...</Link></div>
+                {/* <div className="d-flex justify-content-center mt-3"><Link to="/get-started">Or explore with test credentials</Link></div> */}
+                <ExploreTestCredentials/>
             </Form>
 
         </Container>

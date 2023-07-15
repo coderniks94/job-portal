@@ -1,5 +1,5 @@
 import { async } from "@firebase/util";
-import { doc, getDoc, collection, query, where, getDocs, getCountFromServer, orderBy, limit } from "firebase/firestore";
+import { doc, getDoc, collection, query, where, getDocs, getCountFromServer, orderBy, limit, setDoc } from "firebase/firestore";
 import { firestore } from "./config";
 
 const db = firestore;
@@ -40,6 +40,50 @@ export async function getRecentJobPostsData() {
 
 export async function getAllDocsFromCollection(collectionName) {
     var q = query(collection(db, collectionName));
+
+    var allDocs = [];
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        // const {id, name} = doc.data();
+        allDocs.push(doc.data());
+    });
+    return allDocs;
+}
+
+export async function getAllApplicantsByJobId(jobId) {
+    if(!jobId) return [];
+    var q = query(collection(db, "jobApplications"), where("jobDetail.id", "==", jobId));
+
+    var allDocs = [];
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        // const {id, name} = doc.data();
+        allDocs.push(doc.data());
+    });
+    return allDocs;
+}
+
+export async function getAllApplicationsByUserId(userId) {
+    if(!userId) return [];
+    var q = query(collection(db, "jobApplications"), where("candidateDetail.id", "==", userId));
+
+    var allDocs = [];
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        // const {id, name} = doc.data();
+        allDocs.push(doc.data());
+    });
+    return allDocs;
+}
+
+export async function getUserApplicationsForJob(userId, jobId) {
+    if(!userId || !jobId) return [];
+    const candidateQuery = where("candidateDetail.id", "==", userId);
+    const jobIdQuery = where("jobDetail.id", "==", jobId);
+    var q = query(collection(db, "jobApplications"), candidateQuery, jobIdQuery);
 
     var allDocs = [];
 
@@ -104,4 +148,15 @@ export async function getDocumentById(collection, id) {
 
     console.log("No such document!");
     return null;
+}
+
+/** needs id for each document mandatory */
+export async function addDocumentsToCollection(collectionName, allData) {
+	for (var i = 0; i < allData.length; i++) {
+		const docRef = await setDoc(
+			doc(db, collectionName, allData[i].id),
+			allData[i]
+		);
+		console.log("Document written : ", docRef);
+	}
 }

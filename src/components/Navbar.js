@@ -32,7 +32,8 @@ const MyNavbar = (props) => {
 							height="30"
 							className="mr-2"
 						/> */}
-						Profile
+						{/* Profile */}
+						{user.additionalDetails.name}
 					</>
 				}
 				id="basic-nav-dropdown">
@@ -56,17 +57,14 @@ const MyNavbar = (props) => {
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 				<Navbar.Collapse id="basic-navbar-nav">
 					<Nav className="d-flex">
-						<Nav.Link as={Link} to="/">
-							Home
-						</Nav.Link>
 						{isRecruiterDashboardVisible(user) && <Nav.Link as={Link} to="/recruiter-dashboard">
-							My Dashboard
+							Recruiter Dashboard
 						</Nav.Link>}
-						<Nav.Link as={Link} to="/about">
-							About
-						</Nav.Link>
 						<Nav.Link as={Link} to="/jobs-list">
 							Jobs List
+						</Nav.Link>
+						<Nav.Link as={Link} to="/about">
+							About
 						</Nav.Link>
 					</Nav>
 					<Nav className="ms-auto">

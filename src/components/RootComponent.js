@@ -7,7 +7,9 @@ export default function RootComponent() {
     return (
         <>
             <MyNavbar user={user}/>
-            <Outlet context={useOutletContext()} />
+            <div className="page-body">
+                <Outlet context={useOutletContext()} />
+            </div>
             <PageFooter />
         </>
     )

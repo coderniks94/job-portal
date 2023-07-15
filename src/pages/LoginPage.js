@@ -32,8 +32,10 @@ import { Alert, Button, Container, Form, FormGroup, ToggleButton, ToggleButtonGr
 import { getNewUuidV4 } from "../utils/uuidUtils";
 import { getAllDocsFromCollection } from "../firebase/dbTransactions";
 import { loginUser, signupUser } from "../firebase/auth";
-import { addDocumentsToCollection } from "../firebase/setupData";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import { addDocumentsToCollection } from "../firebase/dbTransactions";
+import { Link, redirect, useNavigate, useOutletContext } from "react-router-dom";
+import ExploreTestCredentials from "../components/ExploreTestCredentials";
+import LoggedInUserRedirectHome from "../components/LoggedInUserRedirectHome";
 
 // full name, email, company, password, repeat password
 
@@ -41,6 +43,7 @@ import { Link, redirect, useNavigate } from "react-router-dom";
 export default function LoginPage() {
     const [formValidationError, setFormValidationError] = useState('');
     const [loginDetails, setLoginDetails] = useState({email: '', password: ''});
+    const { user } = useOutletContext();
 
     const navigate = useNavigate();
 
@@ -91,17 +94,21 @@ export default function LoginPage() {
 		}
 	}
 
+    if(user) {
+        return <LoggedInUserRedirectHome/>
+    }
+
     return (
         <Container className="d-flex justify-content-center h-100">
             <Form className="border border-primary rounded w-50 m-5 p-3" onSubmit={handleFormSubmit}>
                 <FormGroup className="mt-3">
                     <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" name="email" value={loginDetails.email} onChange={handleInputChange}></Form.Control>
+                    <Form.Control type="email" name="email" value={loginDetails.email} onChange={handleInputChange} placeholder="eg. john.doe@example.com"></Form.Control>
                 </FormGroup>
 
                 <FormGroup className="mt-3">
                     <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" name="password" value={loginDetails.password} onChange={handleInputChange}></Form.Control>
+                    <Form.Control type="password" name="password" value={loginDetails.password} onChange={handleInputChange} placeholder="Type your password"></Form.Control>
                 </FormGroup>
 
                 {formValidationError && <Alert variant={"danger"} className="mb-3">
@@ -110,6 +117,8 @@ export default function LoginPage() {
 
                 <Button type="submit" className="w-100 mt-5">Login</Button>
                 <div className="d-flex justify-content-center mt-3"><Link to="/signup">Don't have an account? Signup...</Link></div>
+                {/* <div className="d-flex justify-content-center mt-3"><Link to="/get-started">Or explore with test credentials</Link></div> */}
+                <ExploreTestCredentials/>
                 
                 {/* <Button variant="link">Don't have an account? Signup...</Button> */}
             </Form>

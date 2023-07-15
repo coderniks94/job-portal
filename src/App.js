@@ -16,6 +16,7 @@ import LogoutPage from "./pages/LogoutPage";
 import RootComponent from "./components/RootComponent";
 import GetStarted from "./pages/GetStartedPage";
 import RecruiterDashboardPage from "./pages/RecruiterDashboardPage";
+import UserProfilePage from "./pages/UserProfilePage";
 
 function App() {
     return (
@@ -33,6 +34,7 @@ function App() {
 							<Route path="/logout" element={<LogoutPage />} />
 							<Route path="/about" element={<AboutPage />} />
 							<Route path="/admin" element={<AdminPage />} />
+							<Route path="/profile" element={<UserProfilePage />} />
 							<Route path="/jobs-list" element={<JobListPage />} />
 							<Route path="/job-detail/:id" element={<JobDetailPage />} />
 							<Route path="/new-job" element={<AddNewJobPage />} />
