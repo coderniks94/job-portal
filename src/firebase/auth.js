@@ -10,6 +10,8 @@ export async function signupUser(email, password) {
     } catch (error) {
         const errorCode = error.code;
         const errorMessage = error.message;
+        console.error("Error signing up user: ", errorMessage);
+        return error;
     }
 }
 

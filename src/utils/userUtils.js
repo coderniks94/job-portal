@@ -3,7 +3,7 @@ export function isUserCompanyAdmin(user) {
         return false;
     }
     return user.additionalDetails.roles.some((role)=>{
-        return role.name == 'company-admin';
+        return role.name === 'company-admin';
     });
 }
 
@@ -12,7 +12,7 @@ export function isUserJobSeeker(user) {
         return true;
     }
     return user.additionalDetails.roles.some((role)=>{
-        return role.name == 'job-seeker';
+        return role.name === 'job-seeker';
     });
 }
 
@@ -21,7 +21,7 @@ export function isUserHiringManager(user) {
         return false;
     }
     return user.additionalDetails.roles.some((role)=>{
-        return role.name == 'hiring-manager';
+        return role.name === 'hiring-manager';
     });
 }
 
@@ -30,12 +30,12 @@ export function isUserAdmin(user) {
         return false;
     }
     return user.additionalDetails.roles.some((role)=>{
-        return role.name == 'admin';
+        return role.name === 'admin';
     });
 }
 
 export function isRecruiterDashboardVisible(user) {
-    return  isUserCompanyAdmin(user);
+    return  isUserCompanyAdmin(user) || isUserAdmin(user);
 }
 
 export function isViewApplicantsButtonVisible(user) {

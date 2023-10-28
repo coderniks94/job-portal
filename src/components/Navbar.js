@@ -8,7 +8,7 @@ import {
 	Image,
 	Button,
 } from "react-bootstrap";
-import { isRecruiterDashboardVisible } from "../utils/userUtils";
+import { isRecruiterDashboardVisible, isUserAdmin } from "../utils/userUtils";
 
 const MyNavbar = (props) => {
 	// const { user } = useOutletContext();
@@ -66,6 +66,9 @@ const MyNavbar = (props) => {
 						<Nav.Link as={Link} to="/about">
 							About
 						</Nav.Link>
+						{isUserAdmin(user) && <Nav.Link as={Link} to="/admin">
+							Admin Dashboard
+						</Nav.Link>}
 					</Nav>
 					<Nav className="ms-auto">
 						{!user && <Button variant="light" className="mr-2" size="sm" onClick={handleGetStartedClick}>

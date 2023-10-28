@@ -60,7 +60,7 @@ const companies = [
 		companyDescription:
 			"Every company has a mission. What's ours? To empower every person and every organization to achieve more. We believe technology can and should be a force for good and that meaningful innovation contributes to a brighter world in the future and today. Our culture doesn’t just encourage curiosity; it embraces it. Each day we make progress together by showing up as our authentic selves. We show up with a learn-it-all mentality. We show up cheering on others, knowing their success doesn't diminish our own. We show up every day open to learning our own biases, changing our behavior, and inviting in differences. When we show up, we achieve more together.Microsoft operates in 190 countries and is made up of more than 220,000 passionate employees worldwide.",
 		companyLogoUrl:
-			"https://firebasestorage.googleapis.com/v0/b/job-portal-123.appspot.com/o/company_logos%2Fmsft_logo.jpeg?alt=media&token=d42c6926-b150-4326-8df6-4923823123b9",
+			"https://firebasestorage.googleapis.com/v0/b/job-portal-123.appspot.com/o/company_logos%2Fmsft_logo.jpeg?alt=media&token=fcdc5f73-fc5f-4956-a6b1-6e5d843b4587",
 		companyBannerUrl: "",
 	},
 	{
@@ -89,7 +89,7 @@ const companies = [
 		companyDescription:
 			"A problem isn't truly solved until it's solved for all. Googlers build products that help create opportunities for everyone, whether down the street or across the globe. Bring your insight, imagination and a healthy disregard for the impossible. Bring everything that makes you unique. Together, we can build for everyone.",
 		companyLogoUrl:
-			"https://firebasestorage.googleapis.com/v0/b/job-portal-123.appspot.com/o/company_logos%2Fgoogle_logo.jpeg?alt=media&token=a881ec91-5d40-4b70-8772-7976164ca9f8",
+			"https://firebasestorage.googleapis.com/v0/b/job-portal-123.appspot.com/o/company_logos%2Fgoogle_logo.jpeg?alt=media&token=fa268148-0cee-483b-a688-6dcc3f59f626",
 		companyBannerUrl: "",
 	},
 	{
@@ -124,7 +124,7 @@ const companies = [
 		companyDescription:
 			"We bring companies and customers together on the #1 CRM. Sharing the news, events, and innovation you need to change the world for good. Privacy Statement: http://www.salesforce.com/company/privacy/",
 		companyLogoUrl:
-			"https://firebasestorage.googleapis.com/v0/b/job-portal-123.appspot.com/o/company_logos%2Fsalesforce_logo.jpeg?alt=media&token=4057831f-d4cc-44ce-89fb-0ed6b87d4818",
+			"https://firebasestorage.googleapis.com/v0/b/job-portal-123.appspot.com/o/company_logos%2Fsalesforce_logo.jpeg?alt=media&token=d5a44211-76c9-416f-bf75-456c5dd006b8",
 		companyBannerUrl: "",
 	},
 	{
@@ -159,7 +159,7 @@ const companies = [
 		companyDescription:
 			"Meta builds technologies that help people connect, find communities, and grow businesses. When Facebook launched in 2004, it changed the way people connect. Apps like Messenger, Instagram and WhatsApp further empowered billions around the world. Now, Meta is moving beyond 2D screens toward immersive experiences like augmented and virtual reality to help build the next evolution in social technology.",
 		companyLogoUrl:
-			"https://firebasestorage.googleapis.com/v0/b/job-portal-123.appspot.com/o/company_logos%2Fmeta_logo.jpeg?alt=media&token=8b658d40-e957-4748-88f7-53cebb898b75",
+			"https://firebasestorage.googleapis.com/v0/b/job-portal-123.appspot.com/o/company_logos%2Fmeta_logo.jpeg?alt=media&token=4b2f4147-3ee3-4d66-a997-237130d9a327",
 		companyBannerUrl: "",
 	},
 ];

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, Col, Row } from "react-bootstrap";
+import { Card, Col, Image, Row } from "react-bootstrap";
 import { getTopeSearchedCompaniesData } from "../firebase/dbTransactions";
 import { COMPANY_ID_URL_PARAM } from "../utils/constants";
 
@@ -25,7 +25,13 @@ export default function TopSearchedCompanies() {
 							<Col
 								className="mt-2"
 								key={company.id + "-" + index}>
-								<Card>
+								<Card className="d-flex flex-row">
+									
+									<Image
+										src={company.companyLogoUrl}
+										rounded={true}
+										className="job-tile-logo mt-3 ms-3"
+									/>
 									<Card.Body>
 										<Card.Title>{company.name}</Card.Title>
 										<Card.Subtitle className="mb-2 text-muted">

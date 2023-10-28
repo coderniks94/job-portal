@@ -11,8 +11,8 @@ export async function getTopeSearchedCompaniesData() {
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-        const { id, name } = doc.data();
-        allCompanies.push({ id, name });
+        const { id, name, companyLogoUrl } = doc.data();
+        allCompanies.push({ id, name, companyLogoUrl });
     });
 
     for (var i = 0; i < allCompanies.length; i++) {

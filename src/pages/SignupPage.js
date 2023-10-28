@@ -95,16 +95,21 @@ export default function SignupPage() {
         } else {
             setFormValidationError('');
             console.log("Valid form");
-            const user = await signupUser(signupDetails.email, signupDetails.password);
-            console.log(user);
-            addDocumentsToCollection("users", [{
-                id: user.uid,
-                email: user.email,
-                name: signupDetails.name,
-                roles: signupDetails.roles
-            }]).then(()=>{
-                navigate("/");
-            });
+            const userSignupResult = await signupUser(signupDetails.email, signupDetails.password);
+            console.log(userSignupResult);
+            if(!userSignupResult || !userSignupResult.uid) {
+                setFormValidationError(userSignupResult.errorMessage);
+            } else {
+                addDocumentsToCollection("users", [{
+                    id: userSignupResult.uid,
+                    email: userSignupResult.email,
+                    name: signupDetails.name,
+                    roles: signupDetails.roles
+                }]).then(()=>{
+                    navigate("/");
+                });
+            }
+            
         }
     }
 
