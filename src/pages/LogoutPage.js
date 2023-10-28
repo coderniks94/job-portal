@@ -12,6 +12,6 @@ export default function LogoutPage() {
         })
     }, [])
     return (
-        <Container className="mt-5">You have been logged out. Please go to <Link to="/login">Login</Link> page to login again or <Link to="/get-started">Explore with text credentials</Link></Container>
+        <Container className="mt-5">You have been logged out. Please go to <Link to="/login">Login</Link> page to login again or <Link to="/get-started">Explore with test credentials</Link></Container>
     )
 }

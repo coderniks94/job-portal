@@ -1,6 +1,42 @@
 # Getting Started with Create React App
 
+This is a react firebase project for job portal website.
+Find the deployed project on firebase here: [Job portal](https://job-portal-123.web.app/)
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Available Actions
+
+### As non-logged in user
+
+View the available jobs on website
+Open Jobs list
+Filter by company, department, location or job title
+View complete job details
+Apply to the position with your resume and contact details
+
+### As logged in candidate user
+
+Login as candidate
+View the available jobs on website
+Open Jobs list
+Filter by company, department, location or job title
+View complete job details
+Apply to the position with your resume and contact details
+
+### As recruiter user
+
+Login as recruiter
+Register your company
+View Recruiter Dashboard
+View company details on dashboard
+View the available jobs on portal by your company
+Create new job post
+View the applicants list for a job post
+
+## Setup the project
+Signup with new admin user with email and password of your choice
+Provide admin role to that user in the users collection in firestore
+Go to admin panel (/admin) and click Generate All Data button
 
 ## Available Scripts
 
